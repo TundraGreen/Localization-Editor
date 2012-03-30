@@ -255,7 +255,7 @@ function UpdateTranslation(id, ut, lang) {
 		var text = editorTextareaElem.value;
 		var url = "ajax/updateTranslation.php";
 		var request = "tid=" + tid;
-		request += "&text=" + text;
+		request += "&text=" + encodeURIComponent(text);
 		
 		var xmlHttp = ut.ajaxFunction();
 		xmlHttp.onreadystatechange = function () {
