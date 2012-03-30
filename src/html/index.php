@@ -18,6 +18,8 @@ session_start( );
 	Localization Editor
 </h1>
 <?php
+/* Preliminaries */	
+
 	require "ajax/phpUtils.php";
 	date_default_timezone_set('America/Mexico_City');
 	
@@ -37,6 +39,7 @@ session_start( );
 	$stmtT = $db->prepare($queryT);
 	$stmtT->setFetchMode(PDO::FETCH_OBJ);
 
+/* Prompt selection box */	
 	print ("<div class=\"floatleft\">\n");	
 	print ("<div class=\"promptsHdr\">\n");	
 	print ("Prompt strings:<br />\n");
@@ -59,6 +62,8 @@ session_start( );
 	}
 	print ("</form>\n");
 	print ("</div>\n");
+
+/* New prompt */	
 	print ("<div class=\"addPrompt\">\n");	
 	print ("Add prompt:<br />\n");	
 	print ("<input type=\"text\"\n");
@@ -70,6 +75,19 @@ session_start( );
 	print ("\tonclick=\"handleEvent('addPrompt')\"\n");
 	print ("/>\n");
 	print ("</div>\n");
+
+/* New language */	
+	print ("<div class=\"addPrompt\">\n");	
+	print ("Add language:<br />\n");	
+	print ("<input type=\"text\"\n");
+	print ("\tid=\"addLanguage\"\n");
+	print ("/><br />\n");
+	print ("<input type=\"submit\"\n");
+	print ("\tvalue=\"Add\"\n");
+	print ("\tname=\"promptAdded\"\n");
+	print ("\tonclick=\"handleEvent('addLanguage')\"\n");
+	print ("/>\n");
+	print ("</div>\n");
 	print ("</div>\n");
 
 	$stmtL = $db->prepare($queryL);
@@ -77,6 +95,8 @@ session_start( );
 	
 	$result = doQuery($stmtL, $empty);
 
+
+/* Language translation box */	
 	print ("<div class=\"floatleft\">\n");	
 	while ($recordL = $stmtL->fetch()) { // Returns false if no record
 		$selector = array($recordL->{lid}, $pid);
