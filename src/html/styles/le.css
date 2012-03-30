@@ -1,0 +1,78 @@
+/*
+// © Copyright 2011, William H. Prescott
+*/
+body {
+	background-color:#ffffff; 
+}
+#page {
+	position:relative;
+	width:1000px;
+	margin-left:auto;
+	margin-right:auto;
+	overflow:auto;
+	z-index:1;
+/*
+	height:600px;
+	background-color:#ffff00; 
+*/
+}
+#content {
+	top:0px;
+	left:0px;
+	padding-left:0px;
+	padding-right:0px;
+	font-family:Verdana;
+}
+
+.h1 {
+	float:left;
+	font-family:Verdana;
+	font-size:3.0em;
+	padding-top:30px;
+/*
+	text-decoration:drop shadow;
+	width:1000px;
+*/
+}
+
+.languages {
+	float:left;
+	font-family:Verdana;
+	font-size:1.0em;
+/*
+*/
+}
+
+.languageentry {
+	font-family:Verdana;
+	font-size:1.0em;
+	padding:10px;
+	margin:5px 20px 20px 20px;
+	height:200px;
+	width:600px;
+/*
+	border:1px solid black;
+*/
+}
+
+.prompts {
+	float:left;
+	font-family:Verdana;
+	font-size:1.0em;
+	border:1px solid black;
+	padding:10px;
+	margin:20px;
+/*
+*/
+}
+
+.promptentry {
+	font-family:Verdana;
+	font-size:1.0em;
+/*
+*/
+}
+
+.floatclear {
+	clear:both;
+}
