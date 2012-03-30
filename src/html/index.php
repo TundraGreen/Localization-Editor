@@ -37,8 +37,11 @@ session_start( );
 	$stmtT = $db->prepare($queryT);
 	$stmtT->setFetchMode(PDO::FETCH_OBJ);
 
-	print ("<div class=\"prompts\">\n");	
+	print ("<div class=\"floatleft\">\n");	
+	print ("<div class=\"promptsHdr\">\n");	
 	print ("Prompt strings:<br />\n");
+	print ("</div>\n");
+	print ("<div class=\"prompts\">\n");	
 	print ("<form id=\"promptList\" >\n");	
 	while ($record = $stmtP->fetch()) { // Returns false if no record
 
@@ -55,7 +58,8 @@ session_start( );
 		print ("</div>\n");
 	}
 	print ("</form>\n");
-	print ("<br />\n");	
+	print ("</div>\n");
+	print ("<div class=\"addPrompt\">\n");	
 	print ("Add prompt:<br />\n");	
 	print ("<input type=\"text\"\n");
 	print ("\tid=\"addPrompt\"\n");
@@ -66,21 +70,21 @@ session_start( );
 	print ("\tonclick=\"handleEvent('addPrompt')\"\n");
 	print ("/>\n");
 	print ("</div>\n");
+	print ("</div>\n");
 
 	$stmtL = $db->prepare($queryL);
 	$stmtL->setFetchMode(PDO::FETCH_OBJ);
 	
 	$result = doQuery($stmtL, $empty);
 
-	print ("<div class=\"languages\">\n");	
+	print ("<div class=\"floatleft\">\n");	
 	while ($recordL = $stmtL->fetch()) { // Returns false if no record
 		$selector = array($recordL->{lid}, $pid);
 		$result = doQuery($stmtT, $selector);
 		$recordT = $stmtT->fetch();	
 
-		print ("\n");	
+		print ("<div class=\"languageEntryHdr\">\n");
 
-		print ($recordL->{langcode}.":\n");
 		print ("<input type=\"submit\"\n");
 		print ("\tname=\"updateTranslation\"\n");
 		print ("\tvalue=\"Save\"\n");
@@ -92,7 +96,9 @@ session_start( );
 		print ("\tvalue=\"Cancel\"\n");
 		print ("\tonclick=\"handleEvent('cancelTranslation')\"\n");
 		print ("/>\n");
-		print ("<div class=\"languageentry\">\n");
+		print ($recordL->{langcode}.":\n");
+		print ("</div>\n");
+		print ("<div class=\"languageEntry\">\n");
 		print ("<textarea type=\"submit\"\n");
 		print ("\tid=\"langstring-".$tid."\"\n");
 		print ("\trows=\"10\"\n");

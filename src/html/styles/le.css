@@ -35,44 +35,69 @@ body {
 */
 }
 
-.languages {
-	float:left;
+.languageEntryHdr {
 	font-family:Verdana;
-	font-size:1.0em;
+	font-size:0.8em;
+	margin:20px 0px 0px 20px;
 /*
+	border:1px solid red;
+	margin or padding: top right bottom left;
 */
 }
 
-.languageentry {
+.languageEntry {
 	font-family:Verdana;
 	font-size:1.0em;
-	padding:10px;
-	margin:5px 20px 20px 20px;
+	padding:0px;
+	margin:0px 0px 0px 20px;
+/*
 	height:200px;
 	width:600px;
-/*
 	border:1px solid black;
+*/
+}
+
+.promptsHdr {
+	font-family:Verdana;
+	font-size:0.8em;
+	padding:0px 0px 0px 0px;
+	margin:20px 0px 0px 0px;
+/*
 */
 }
 
 .prompts {
-	float:left;
-	font-family:Verdana;
-	font-size:1.0em;
+	padding:0px;
+	margin:0px;
+	height:600px;
+	overflow:auto;
 	border:1px solid black;
-	padding:10px;
-	margin:20px;
 /*
 */
 }
 
-.promptentry {
+.promptEntry {
 	font-family:Verdana;
-	font-size:1.0em;
+	font-size:0.8em;
+/*
+*/
+}
+
+.addPrompt {
+	font-family:Verdana;
+	font-size:0.8em;
+	margin:20px 0px 0px 0px;
 /*
 */
 }
 
 .floatclear {
 	clear:both;
+}
+
+.floatleft {
+	float:left;
+	padding:5px;
+	margin:5px;
+	border:2px solid black;
 }
