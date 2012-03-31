@@ -39,8 +39,9 @@ session_start( );
 	$stmtT = $db->prepare($queryT);
 	$stmtT->setFetchMode(PDO::FETCH_OBJ);
 
+	print ("<div class=\"floatLeft\">\n");
+	
 /* Prompt selection box */	
-	print ("<div class=\"floatleft\">\n");	
 	print ("<div class=\"promptsHdr\">\n");	
 	print ("Prompt strings:<br />\n");
 	print ("</div>\n");
@@ -96,8 +97,9 @@ session_start( );
 	$result = doQuery($stmtL, $empty);
 
 
+	print ("<div class=\"floatLeft\">\n");
+	
 /* Language translation box */	
-	print ("<div class=\"floatleft\">\n");	
 	while ($recordL = $stmtL->fetch()) { // Returns false if no record
 		$selector = array($recordL->{lid}, $pid);
 		$result = doQuery($stmtT, $selector);
@@ -127,6 +129,7 @@ session_start( );
 		print ("</div>\n");
 	}
 	print ("</div>\n");
+	print ("<div class=\"floatClear\"></div>\n");
 ?> 
 
 </div><!--End of content-->

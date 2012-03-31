@@ -6,12 +6,12 @@ body {
 }
 #page {
 	position:relative;
-	width:1000px;
 	margin-left:auto;
 	margin-right:auto;
 	overflow:auto;
 	z-index:1;
 /*
+	width:1000px;
 	height:600px;
 	background-color:#ffff00; 
 */
@@ -19,8 +19,7 @@ body {
 #content {
 	top:0px;
 	left:0px;
-	padding-left:0px;
-	padding-right:0px;
+	padding:0px 0px 0px 20px;
 	font-family:Verdana;
 }
 
@@ -69,10 +68,10 @@ h1 {
 }
 
 .prompts {
-	padding:0px;
-	margin:0px;
+	padding:0px 0px 0px 0px;
+	margin:0px 0px 0px 0px;
 	height:600px;
-	overflow:auto;
+	overflow:scroll;
 	border:1px solid black;
 /*
 */
@@ -81,7 +80,9 @@ h1 {
 .promptEntry {
 	font-family:Verdana;
 	font-size:0.8em;
+	padding:0px 15px 0px 5px;
 /*
+	width:275px;
 */
 }
 
@@ -93,11 +94,11 @@ h1 {
 */
 }
 
-.floatclear {
+.floatClear {
 	clear:both;
 }
 
-.floatleft {
+.floatLeft {
 	float:left;
 	padding:5px;
 	margin:5px;
