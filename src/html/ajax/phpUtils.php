@@ -46,4 +46,31 @@ function jsonReturn($output, $resultFlag, $errorMessage) {
 	);
 	print json_encode($return);	
 }
+
+// Given a prompt string
+// Returns the corresponding string in selected language 
+// Language choice is taken from the language cookie
+function local($text) {
+	global $lid;
+	$db = initDatabase('../localization.sqlite');
+	
+	// Get id for prompt
+	$queryP = "SELECT pid FROM prompts where promptstring=?";
+	$stmtP = $db->prepare($queryP);
+	$stmtP->setFetchMode(PDO::FETCH_OBJ);
+	doQuery($stmtP, array($text)); 
+	$recordP = $stmtP->fetch();
+	$pid =  $recordP->{pid};
+	
+	// Get local string for lid and pid
+	$queryT = "SELECT langstring FROM translations where langid=? AND promptid=?;";
+	$stmtT = $db->prepare($queryT);
+	$stmtT->setFetchMode(PDO::FETCH_OBJ);
+	doQuery($stmtT, array($lid, $pid)); 
+	$recordT = $stmtT->fetch();
+	$result = $recordT->{langstring};
+	return $result;
+}
+
 ?>
+
