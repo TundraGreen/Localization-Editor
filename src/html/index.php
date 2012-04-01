@@ -107,24 +107,31 @@ session_start( );
 
 		print ("<div class=\"languageEntryHdr\">\n");
 
-		print ("<input type=\"submit\"\n");
-		print ("\tname=\"updateTranslation\"\n");
-		print ("\tvalue=\"Save\"\n");
 		$lid = $recordL->{lid};
 		$tid = $recordT->{tid};
+		print ("<input type=\"submit\"\n");
+		print ("\tid=\"saveBtn-".$tid."\"\n");
+		print ("\tname=\"updateTranslation\"\n");
+		print ("\tvalue=\"Save\"\n");
+		print ("\tdisabled\n");
 		print ("\tonclick=\"handleEvent('updateTranslation',".$tid.")\"\n");
 		print ("/>\n");
+		
 		print ("<input type=\"submit\"\n");
+		print ("\tid=\"cancelBtn-".$tid."\"\n");
 		print ("\tvalue=\"Cancel\"\n");
+		print ("\tdisabled\n");
 		print ("\tonclick=\"handleEvent('cancelTranslation')\"\n");
 		print ("/>\n");
 		print ($recordL->{langcode}.":\n");
 		print ("</div>\n");
+		
 		print ("<div class=\"languageEntry\">\n");
-		print ("<textarea type=\"submit\"\n");
+		print ("<textarea \n");
 		print ("\tid=\"langstring-".$tid."\"\n");
 		print ("\trows=\"25\"\n");
 		print ("\tcols=\"75\"\n");
+		print ("\tonkeypress=\"handleEvent('translationTextChanged',".$tid.")\"\n");
 		print (">".$recordT->{langstring}."</textarea>\n");
 		print ("</div>\n");
 	}

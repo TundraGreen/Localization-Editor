@@ -160,6 +160,16 @@ function SelectPrompt(id, ut, lang) {
 		var plElem = document.getElementById('promptList');
 		var radioBtnElem = document.forms['promptList'].elements;
 		var chkdValue = getCheckedValue(radioBtnElem);
+		if (local.someTextAreaChanged) {
+			if (confirm("Some text has changed.\n"
+				+ "Switching prompts will lose the changes.\n"
+				+ "Click OK to discard changes.\n"
+				+ "Click Cancel to go back without losing changes.")) {
+			}
+			else {
+				return;		
+			}
+		}
 		local.cookieHandler.createCookie("pid", chkdValue);
 		window.location.reload(true);
 	};
@@ -251,6 +261,8 @@ function UpdateTranslation(id, ut, lang) {
 	//	ie in adding a answer, id is the id of the owning question record
 	//
 	this.onClick = function (tid) {
+		var saveBtnElem = document.getElementById('saveBtn-' + tid);
+		var cancelBtnElem = document.getElementById('cancelBtn-' + tid);
 		var editorTextareaElem = document.getElementById('langstring-' + tid);
 		var text = editorTextareaElem.value;
 		var url = "ajax/updateTranslation.php";
@@ -265,6 +277,8 @@ function UpdateTranslation(id, ut, lang) {
 					console.log("Response: "+xmlHttp.responseText);
 				}						
 //				window.location.reload();
+				saveBtnElem.disabled = true;
+				cancelBtnElem.disabled = true;
 			}
 		};
 		xmlHttp.open("POST",url,true);
@@ -272,6 +286,12 @@ function UpdateTranslation(id, ut, lang) {
 		xmlHttp.setRequestHeader("Content-length", request.length);
 		xmlHttp.setRequestHeader("Connection", "close");		
 		xmlHttp.send(request);
+	};
+	this.onKeyPress = function(tid) {
+		var saveBtnElem = document.getElementById('saveBtn-' + tid);
+		var cancelBtnElem = document.getElementById('cancelBtn-' + tid);
+		saveBtnElem.disabled = false;
+		cancelBtnElem.disabled = false;
 	};
 }
 UpdateTranslation.prototype = new ControlElement();
@@ -344,6 +364,8 @@ function Localization () {
 	this.selectPrompt = new SelectPrompt("SelectPrompt", this.util, this.langFlag);
 	this.updateTranslation = new UpdateTranslation("UpdateTranslation", this.util, this.langFlag);
 
+	this.someTextAreaChanged = false;
+	
 	this.addLanguageOnClick = function () {
 		this.addLanguage.onClick();
 	};
@@ -356,8 +378,13 @@ function Localization () {
 	this.selectPromptOnChange = function () {
 		this.selectPrompt.onChange(this);
 	};
+	this.updateTranslationOnKeyPress = function (tid) {
+		this.someTextAreaChanged = true;
+		this.updateTranslation.onKeyPress(tid);
+	};
 	this.updateTranslationOnClick = function (tid) {
 		this.updateTranslation.onClick(tid);
+		this.someTextAreaChanged = false;
 	};
 }
 /**
@@ -381,11 +408,14 @@ function handleEvent(type, parameter) {
 		case "selectPrompt":
 			localization.selectPromptOnChange();
 			break;
+		case "translationTextChanged":
+			localization.updateTranslationOnKeyPress(parameter);
+			break;
 		case "updateTranslation":
 			localization.updateTranslationOnClick(parameter);
 			break;
 		default:
-			alert("break.js:handleEvents: type not found. " );
+			alert("handleEvents: Type not found: " + type );
 			break; 
 	}
 }
