@@ -38,6 +38,11 @@ h1 {
 */
 }
 
+.languageBox {
+	height:800px;
+	overflow-y:scroll;
+}
+
 .languageEntryHdr {
 	font-family:Verdana;
 	font-size:0.8em;
@@ -58,6 +63,10 @@ h1 {
 */
 }
 
+.promptBox {
+	height:800px;
+}
+
 .promptsHdr {
 	font-family:Verdana;
 	font-size:0.8em;
@@ -71,7 +80,7 @@ h1 {
 	padding:0px 0px 0px 0px;
 	margin:0px 0px 0px 0px;
 	height:600px;
-	overflow:scroll;
+	overflow-y:scroll;
 	border:1px solid black;
 /*
 */

@@ -7,7 +7,7 @@ session_start( );
 <html>
 <head>
 	<title>Localization Editor</title> 
-	<link href="styles/le.css" rel="stylesheet" type="text/css" />
+	<link href="estilos/le.css" rel="stylesheet" type="text/css" />
 	<script src="javascript/le.js" type="text/javascript"></script>
 </head>
 <body onLoad="handleEvent('init')">
@@ -39,7 +39,7 @@ session_start( );
 	$stmtT = $db->prepare($queryT);
 	$stmtT->setFetchMode(PDO::FETCH_OBJ);
 
-	print ("<div class=\"floatLeft\">\n");
+	print ("<div class=\"promptBox floatLeft\">\n");
 	
 /* Prompt selection box */	
 	print ("<div class=\"promptsHdr\">\n");	
@@ -97,7 +97,7 @@ session_start( );
 	$result = doQuery($stmtL, $empty);
 
 
-	print ("<div class=\"floatLeft\">\n");
+	print ("<div class=\"languageBox floatLeft\">\n");
 	
 /* Language translation box */	
 	while ($recordL = $stmtL->fetch()) { // Returns false if no record
@@ -123,8 +123,8 @@ session_start( );
 		print ("<div class=\"languageEntry\">\n");
 		print ("<textarea type=\"submit\"\n");
 		print ("\tid=\"langstring-".$tid."\"\n");
-		print ("\trows=\"10\"\n");
-		print ("\tcols=\"80\"\n");
+		print ("\trows=\"25\"\n");
+		print ("\tcols=\"75\"\n");
 		print (">".$recordT->{langstring}."</textarea>\n");
 		print ("</div>\n");
 	}

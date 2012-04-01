@@ -5,9 +5,39 @@ Copyright 2012 William Prescott
 
 v 1.0 2012-03-29
 
+Overview
+--------
+A system for maintaining multiple languages on a web page using php
+and sqlite. The text strings from the web pages are stored in a database.
+When the page is delivered to the user, php decides which language to 
+pull from the database.
 
-Databaase structure
+The text is included in the web page with a entry like:
+<?php print local("hello_world") ?>
+When the page is requested, the php looks up the string, "text_prompt"
+in the database and returns, either "Hello World", or "Hola a Mundo", or 
+"Hallo Welt".
 
+
+System components
+-----------------
+LocalizationEditor.php
+	A web app that is used to add or edit entries in the database.
+phpUtils.php
+	A few php functions used by the Localization Editor
+le.css
+	The css used by the editor
+le.js
+	The javascript used by the editor
+localization.sqlite
+	A database containing
+		Table of language-country pairs
+		Table of prompts or keywords
+		Table of text
+
+
+Database structure
+------------------
 DROP TABLE languages;
 CREATE TABLE languages
 (
