@@ -29,7 +29,7 @@ session_start( );
 	$empty = array();
 
 	// Connect to the database with PDO
-	$db = initDatabase ('Localization.sqlite');
+	$db = initDatabase ('localization.sqlite');
 	
 	$stmtP = $db->prepare($queryP);
 	$stmtP->setFetchMode(PDO::FETCH_OBJ);
