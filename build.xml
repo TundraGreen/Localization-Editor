@@ -3,6 +3,7 @@
 		Localization Editor 
 	</description>
 	<property name="version" value="0.1:2012-03-29"/>
+	<property name="dist"	location="dist"/>
 	
 	<target name="init"
 		description="Initialize">
@@ -19,5 +20,15 @@
 			<fileset dir="src/html"/>
 		</copy>
 	</target>
+
+	<target name="zip" depends="init"
+		description="Zip web contents">
+		<mkdir dir="${dist}" />
+		<zip destfile="${dist}/${project}.zip"
+			basedir="src/html"
+			excludes="**/.DS_Store, **/.svn/**"
+		/>
+	</target>
+
 
 </project>
