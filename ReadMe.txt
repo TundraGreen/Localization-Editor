@@ -36,7 +36,7 @@ local might return "Hello World", or "Hola Mundo", or "Hallo Welt".
 
 System components
 -----------------
-LocalizationEditor.php
+LocalizationEditor/index.php
 	A web app that is used to add or edit entries in the database.
 phpUtils.php
 	A few php functions used by the Localization Editor
@@ -57,6 +57,7 @@ updateTranslation.php
 	responds to an ajax call and modifies a stored localized text string
 Cookie.php
 	Checks for the presence of a language cookie
+Several Apache ant build.xml and config files are included for zipping or pushing to a local web server.
 
 Database structure
 ------------------
