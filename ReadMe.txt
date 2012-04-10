@@ -1,4 +1,5 @@
 Localization Editor
+v. 1.0
 
 /*
 Copyright © 2012 William H. Prescott. All Rights Reserved.
@@ -19,16 +20,18 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Overview
 --------
-A system for maintaining a localization database. An application inserts "prompts" or "keys" where ever a language specific string is required. On execution, the application pulls that actual string in the appropriate language from the database. 
+A system for maintaining a localization database. An application inserts "prompts" or "keys" where ever a language specific string is required. On execution, the application pulls the actual string in the appropriate language from the database. 
 
 Localization Editor is a web app that makes it easy to create and maintain the database. It was particularly designed to facilitate multi-language web pages, but could be used anywhere support for various languages is desired. The maintenance of the text is completely separated from 
 maintenance of the source code and can be done by translators with no knowledge of the source code.
  
-The Editor uses php, javascript and ajax to manage the localization information which is stored in an sqlite database. The text strings from the web pages are stored in a database. When the page is delivered to the user, php decides which language to pull from the database.
+The Editor uses php, javascript and ajax to manage the localization information which is stored in an sqlite database. The localized text strings are stored in a database. When an application needs a text string it is pulled from the data base using the prompt and language code as keys.
 
-The text is included in the web page with a entry like:
+For example a web page would include the string:
 <?php print local("hello_world") ?>
-When the page is requested, the php looks up the string, "hello_world" in the database and returns, for example, either "Hello World", or "Hola a Mundo", or "Hallo Welt".
+Where "local" is a function that queries the localization database using the string "hello_world" and a stored language cookie.
+
+local might return "Hello World", or "Hola Mundo", or "Hallo Welt".
 
 
 System components
@@ -46,7 +49,14 @@ localization.sqlite
 		Table of language-country pairs
 		Table of prompts or keywords
 		Table of text
-
+addLanguage.php
+	responds to an ajax call and adds a new language code
+addPrompt.php
+	responds to an ajax call and adds a new prompt
+updateTranslation.php
+	responds to an ajax call and modifies a stored localized text string
+Cookie.php
+	Checks for the presence of a language cookie
 
 Database structure
 ------------------
