@@ -17,10 +17,11 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 */
 ?>
-
 <!DOCTYPE html>
+
 <html>
 <head>
+	<meta charset="UTF-8">
 	<title>Localization Editor</title> 
 	<link href="estilos/le.css" rel="stylesheet" type="text/css" />
 	<script src="javascript/le.js" type="text/javascript"></script>

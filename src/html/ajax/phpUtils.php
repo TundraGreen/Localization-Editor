@@ -88,4 +88,3 @@ function local($text) {
 }
 
 ?>
-
