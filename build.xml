@@ -3,19 +3,25 @@
 		Localization Editor 
 	</description>
 	<property name="version" value="0.1:2012-03-29"/>
-	<property name="dist"	location="dist"/>
+	<property name="product"	location="product"/>
+	<property name="source"		location="source"/>
+	<property name="project"	location="LocalizationEditor"/>
+	<property name="web.local"	location="web.local=/Library/WebServer/Documents"/>
 	
 	<target name="init"
 		description="Initialize">
 		<echo message="${project} - init"/>
 		<tstamp/>
-		<property file="web.conf"/>
 	</target>
 															   
 	<target name="deploy.local" depends="init"
 		description="Copy to web documents directory">
-		<echo message="${project} - copy web site to local web documents directory"/>
-		<mkdir dir="${web.local}/LocalizationEditor"/>
+		<echo message="${project} - copy web site to local web documents directory" />
+		<mkdir dir="${product}" />
+		<copy  todir="${product}">
+			<fileset dir="${source}" />
+		</copy>
+		<mkdir dir="${product}" />
 		<copy  todir="${web.local}/LocalizationEditor">
 			<fileset dir="src/html"/>
 		</copy>
