@@ -23,16 +23,47 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 <head>
 	<meta charset="UTF-8">
 	<title>Localization Editor</title> 
+	<link href="estilos/master.css" rel="stylesheet" type="text/css" />
 	<link href="estilos/le.css" rel="stylesheet" type="text/css" />
 	<script src="javascript/le.js" type="text/javascript"></script>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="javascript/jquery.cookie.js" type="text/javascript"></script>
 </head>
 <body onLoad="handleEvent('init')">
-<?php include "Cookie.php"?>
+<?php
+if (isset($_COOKIE["dbNum"])) {
+	$dbNum = $_COOKIE["dbNum"];
+}
+else {
+	$dbNum = 0;
+}
+include_once("config.php");
+?>
 <div id="page">
 <div id="content">
-<h1>
+<h3>
 	Localization Editor
-</h1>
+</h3>
+<div class="dbSelection floatLeft">
+	Select database:<br />
+	<form>
+	<select id="pickDB" onchange="selectDB()">
+<?php
+	for($i=0; $i<count($dbDirList); $i++) {
+		print "\t\t<option";
+		print " value='".$i."'";
+		if( $dbNum == $i) print " selected";
+		print ">\n";
+		print "\t\t\t".$dbDirList[$i]."\n";
+		print "\t\t</option>\n";
+	}
+?>
+	</select>
+	</form>
+</div>
+
+<div class="clear">
+
 <?php
 /* Preliminaries */	
 
@@ -45,7 +76,8 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	$empty = array();
 
 	// Connect to the database with PDO
-	$db = initDatabase ('localization.sqlite');
+	$dbName = $dbDirList[$dbNum]."/localization.sqlite";
+	$db = initDatabase ($dbName);
 	
 	$stmtP = $db->prepare($queryP);
 	$stmtP->setFetchMode(PDO::FETCH_OBJ);

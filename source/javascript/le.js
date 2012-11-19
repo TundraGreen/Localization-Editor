@@ -312,6 +312,13 @@ function UpdateTranslation(id, ut, lang) {
 }
 UpdateTranslation.prototype = new ControlElement();
 
+function selectDB () {
+	$.cookie('dbNum',$('#pickDB option:selected').val());
+//	console.log( $.cookie('dbNum') );
+	window.location.reload(true);
+}
+
+
 /**
 	@class Useful methods
 */

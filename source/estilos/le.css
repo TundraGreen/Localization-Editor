@@ -50,10 +50,17 @@ h1 {
 	width:1000px;
 */
 }
+.dbSelection {
+	padding:10px;
+	font-size:0.8em;
+}
 
 .languageBox {
 	height:800px;
 	overflow-y:scroll;
+	padding:5px;
+	margin:5px;
+	border:2px solid black;
 }
 
 .languageEntryHdr {
@@ -78,6 +85,9 @@ h1 {
 
 .promptBox {
 	height:800px;
+	padding:5px;
+	margin:5px;
+	border:2px solid black;
 }
 
 .promptsHdr {
@@ -116,16 +126,3 @@ h1 {
 */
 }
 
-.floatClear {
-	clear:both;
-}
-
-.floatLeft {
-	float:left;
-	padding:5px;
-	margin:5px;
-	border:2px solid black;
-/*
-	border:1px solid black;
-*/
-}

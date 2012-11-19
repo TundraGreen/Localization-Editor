@@ -6,7 +6,7 @@
 	<property name="product"	location="product"/>
 	<property name="source"		location="source"/>
 	<property name="project"	location="LocalizationEditor"/>
-	<property name="web.local"	location="web.local=/Library/WebServer/Documents"/>
+	<property name="web.local"	location="/Library/WebServer/Documents"/>
 	
 	<target name="init"
 		description="Initialize">
@@ -23,18 +23,23 @@
 		</copy>
 		<mkdir dir="${product}" />
 		<copy  todir="${web.local}/LocalizationEditor">
-			<fileset dir="src/html"/>
+			<fileset dir="${product}"/>
 		</copy>
 	</target>
 
 	<target name="zip" depends="init"
 		description="Zip web contents">
-		<mkdir dir="${dist}" />
-		<zip destfile="${dist}/${project}.zip"
-			basedir="src/html"
+		<mkdir dir="${product}" />
+		<zip destfile="${product}/${project}.zip"
+			basedir="${source}"
 			excludes="**/.DS_Store, **/.svn/**"
 		/>
 	</target>
 
+	<target name="clean" depends="init">
+		<echo message="${project} - clean"/>
+		<delete dir="${product}"/>
+	</target>
+	
 
 </project>
