@@ -318,6 +318,11 @@ function selectDB () {
 	window.location.reload(true);
 }
 
+function writeFiles() {
+	$.ajax({
+		url:"ajax/writeLanguageFiles.php"
+	});	
+}
 
 /**
 	@class Useful methods

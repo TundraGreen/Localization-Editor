@@ -44,7 +44,7 @@ include_once("config.php");
 <h3>
 	Localization Editor
 </h3>
-<div class="dbSelection floatLeft">
+<div class="dbSelection">
 	Select database:<br />
 	<form>
 	<select id="pickDB" onchange="selectDB()">
@@ -61,8 +61,10 @@ include_once("config.php");
 	</select>
 	</form>
 </div>
+<div">
+	<button onclick="writeFiles()"><big>Write language files</big></button>
+</div>
 
-<div class="clear">
 
 <?php
 /* Preliminaries */	

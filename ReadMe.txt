@@ -18,6 +18,8 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.1 (Build 3)
+	Partial implementation of code to write language strings to files.
 Version 1.1 (Build 2)
 	Add config.php file with a list of known localization databases.
 	Added drop down list of databases on index page.
