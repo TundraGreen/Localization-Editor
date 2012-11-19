@@ -54,6 +54,9 @@ h1 {
 	padding:10px;
 	font-size:0.8em;
 }
+.padded {
+	padding:10px;
+}
 
 .languageBox {
 	height:800px;

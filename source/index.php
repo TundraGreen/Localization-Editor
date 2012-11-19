@@ -61,7 +61,7 @@ include_once("config.php");
 	</select>
 	</form>
 </div>
-<div">
+<div class="padded">
 	<button onclick="writeFiles()"><big>Write language files</big></button>
 </div>
 
