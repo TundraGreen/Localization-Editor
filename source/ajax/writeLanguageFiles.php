@@ -62,36 +62,21 @@ doQuery($stmtL, $empty);
 $result = "";
 while ($recordL = $stmtL->fetch()) { // Returns false if no record
 	doQuery($stmtP, $empty);
-	$result .= $recordL->{langcode};
+	$fileName =  "../".$dbDirList[$dbNum]."/".$recordL->{langcode}.".php";
+	$fHdl = fopen($fileName, 'w');
+	$output = "<?php\n";
+	fwrite($fHdl, $output);
 	while ($recordP = $stmtP->fetch()) { // Returns false if no record
 		$args = array($recordL->{lid}, $recordP->{pid});
-		doQuery($stmtP, $args);
+		doQuery($stmtT, $args);
 		$recordT = $stmtT->fetch();
-		$result .= $recordT->{langstring};
+		$output = "define('".$recordP->{promptstring}."', '".$recordT->{langstring}."')\n";
+		fwrite($fHdl, $output);
 	}
+	$output = "?>\n";
+	fwrite($fHdl, $output);
+	fclose($fHdl);
 }
-/*
-$query = "INSERT INTO languages (langcode) VALUES (?)";
-$stmt = $db->prepare($query);
-$args = array($langString);
-doQuery($stmt, $args);
-$lid = $db->lastinsertid();
-
-$queryP = "SELECT pid, promptstring FROM prompts";
-$stmtP = $db->prepare($queryP);
-$stmtP->setFetchMode(PDO::FETCH_OBJ);
-	
-$result = doQuery($stmtP, $empty);
-
-while ($record = $stmtP->fetch()) { // Returns false if no record
-	$promptString = $record->{promptstring};
-	$query = "INSERT INTO translations (langid, promptid, langstring) VALUES (?,?,?)";
-	$stmt = $db->prepare($query);
-	$args = array($lid, $record->{pid}, $promptString);
-	doQuery($stmt, $args);
-}
-
-*/
 jsonReturn($result, true, 'noerror');
 
 $db = null;

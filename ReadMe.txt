@@ -18,6 +18,11 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.2 (Build 5)
+	Write translated strings to a set of language files.
+	User can access the translations either:
+		Directly from the database with a local() function
+		Or as php defines with the language files.
 Version 1.1 (Build 4)
 	Partial implementation of code to write language strings to files.
 Version 1.1 (Build 3)
