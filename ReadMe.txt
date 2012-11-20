@@ -18,6 +18,9 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.2 (Build 6)
+	Updated addLanguage.php and addPrompt.php and updateTranslation.php
+	to find database in new place.
 Version 1.2 (Build 5)
 	Write translated strings to a set of language files.
 	User can access the translations either:
@@ -87,8 +90,6 @@ CREATE TABLE languages
 lid INTEGER PRIMARY KEY,
 langcode TEXT NOT NULL DEFAULT ''
 );
-INSERT INTO languages (langcode) VALUES ("en_US");
-INSERT INTO languages (langcode) VALUES ("es_MX");
 
 DROP TABLE prompts;
 CREATE TABLE prompts
@@ -96,8 +97,6 @@ CREATE TABLE prompts
 pid INTEGER PRIMARY KEY,
 promptstring TEXT NOT NULL DEFAULT ''
 );
-INSERT INTO prompts (promptstring) VALUES ("name");
-INSERT INTO prompts (promptstring) VALUES ("address");
 
 DROP TABLE translations;
 CREATE TABLE translations
@@ -107,6 +106,10 @@ langid INTEGER NOT NULL DEFAULT 0,
 promptid INTEGER NOT NULL DEFAULT 0,
 langstring TEXT NOT NULL DEFAULT ''
 );
+INSERT INTO languages (langcode) VALUES ("en_US");
+INSERT INTO languages (langcode) VALUES ("es_MX");
+INSERT INTO prompts (promptstring) VALUES ("name");
+INSERT INTO prompts (promptstring) VALUES ("address");
 INSERT INTO translations (langid, promptid, langstring) VALUES (1, 1, "Name");
 INSERT INTO translations (langid, promptid, langstring) VALUES (2, 1, "Nombre");
 INSERT INTO translations (langid, promptid, langstring) VALUES (1, 2, "Address");

@@ -20,16 +20,27 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 # addPrompt.php
 # W. Prescott 2012-03-29
 #
-include "phpUtils.php";
 
 header('Content-type: application/json');
+require_once "phpUtils.php";
+require_once("../config.php");
+
+if (isset($_COOKIE["dbNum"])) {
+	$dbNum = $_COOKIE["dbNum"];
+}
+else {
+	$dbNum = 0;
+}
+
 
 $uid = $_SESSION['uid'];
 
 $langString = $_POST['string'];
 
 // Connect to the database with PDO
-$db = initDatabase ('../localization.sqlite');
+$dbName = "../".$dbDirList[$dbNum]."/localization.sqlite";
+
+$db = initDatabase ($dbName);
 
 $query = "INSERT INTO languages (langcode) VALUES (?)";
 $stmt = $db->prepare($query);
@@ -51,8 +62,10 @@ while ($record = $stmtP->fetch()) { // Returns false if no record
 	doQuery($stmt, $args);
 }
 
-jsonReturn($result, true, 'noerror');
+jsonReturn($dbName, true, 'noerror');
 
 $db = null;
+/*
+*/
 ?>
 

@@ -23,7 +23,8 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 // List of language directories
 $dbDirList = array (
+	"optimismodis",
 	"westanchorage",
-	"optimismodis"
+	"theprescotts"
 );
 ?>

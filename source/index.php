@@ -38,6 +38,7 @@ else {
 	$dbNum = 0;
 }
 include_once("config.php");
+$pid = $_COOKIE["pid"];
 ?>
 <div id="page">
 <div id="content">

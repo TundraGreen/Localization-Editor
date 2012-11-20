@@ -20,16 +20,24 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 # addPrompt.php
 # W. Prescott 2012-03-29
 #
-include "phpUtils.php";
-
 header('Content-type: application/json');
+require_once "phpUtils.php";
+require_once("../config.php");
+
+if (isset($_COOKIE["dbNum"])) {
+	$dbNum = $_COOKIE["dbNum"];
+}
+else {
+	$dbNum = 0;
+}
 
 $uid = $_SESSION['uid'];
 
 $string = $_POST['string'];
 
 // Connect to the database with PDO
-$db = initDatabase ('../localization.sqlite');
+$dbName = "../".$dbDirList[$dbNum]."/localization.sqlite";
+$db = initDatabase ($dbName);
 
 $query = "INSERT INTO prompts (promptstring) VALUES (?)";
 $stmt = $db->prepare($query);
