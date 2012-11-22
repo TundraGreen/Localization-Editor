@@ -312,27 +312,28 @@ function UpdateTranslation(id, ut, lang) {
 }
 UpdateTranslation.prototype = new ControlElement();
 
-function selectDB () {
-	if ( $('#pickDB option:selected').val() ==="new") {
-		var name = prompt('Enter name for new database');
-		$.ajax({
-			type: "POST",
-			url: "ajax/addDatabase.php",
-			data: {name: name},
-			complete: function(data) {
-				var jsonObj = JSON.parse(data.responseText);
-				alert (jsonObj.output);
-				if (!jsonObj.resultFlag) {
-					console.log("Response: "+xmlHttp.responseText);
-				}						
+function newDB () {
+	var name = prompt('Enter name for new database');
+	if (name === null || name === '') {
+		return;
+	}
+	$.ajax({
+		type: "POST",
+		url: "ajax/addDatabase.php",
+		data: {name: name},
+		complete: function(data) {
+			var jsonObj = JSON.parse(data.responseText);
+			if (!jsonObj.resultFlag) {
+				console.log("Response: "+jsonObj.error);
 			}
-		});
-	}
-	else {
-		$.cookie('dbNum',$('#pickDB option:selected').val());
-//		console.log( $.cookie('dbNum') );
-		window.location.reload(true);
-	}
+			window.location.reload(true);							
+		}
+	});
+}
+
+function selectDB () {
+	$.cookie('dbName',$('#pickDB option:selected').val(),{path:"/"});
+	window.location.reload(true);
 }
 
 function writeFiles() {

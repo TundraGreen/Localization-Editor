@@ -18,15 +18,16 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 */
 /* Preliminaries */	
 
-	if (isset($_COOKIE["dbNum"])) {
-		$dbNum = $_COOKIE["dbNum"];
-	}
-	else {
-		$dbNum = 0;
-	}
-	
 	$prefix = "";
 	require_once("ajax/getDatabaseList.php");
+	if (isset($_COOKIE["dbName"])) {
+		$dbName = $_COOKIE["dbName"];
+	}
+	else {
+		$dbName = $dbDirList[0];
+		setcookie("dbName", $dbName, time()+60*60*24*30, "/");
+	}
+	
 	require "ajax/phpUtils.php";
 	date_default_timezone_set('America/Mexico_City');
 	$pid = $_COOKIE["pid"];
@@ -53,22 +54,25 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	Localization Editor
 </h3>
 <div class="dbSelection">
-	Select database:<br />
-	<form>
 	<select id="pickDB" onchange="selectDB()">
-		<option value="new">New...</option>
 <?php
+	$dbNum = 0;
 	for($i=0; $i<count($dbDirList); $i++) {
 		print "\t\t<option";
-		print " value='".$i."'";
-		if( $dbNum == $i) print " selected";
+		print " value='".$dbDirList[$i]."'";
+		if( $dbName === $dbDirList[$i]) {
+			print " selected";
+			$dbNum = $i;
+		}
 		print ">\n";
 		print "\t\t\t".$dbDirList[$i]."\n";
 		print "\t\t</option>\n";
 	}
 ?>
 	</select>
-	</form>
+</div>
+<div class="padded">
+	<button onclick="newDB()"><big>New database …</big></button>
 </div>
 <div class="padded">
 	<button onclick="writeFiles()"><big>Write language files</big></button>
@@ -83,8 +87,8 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	$empty = array();
 
 	// Connect to the database with PDO
-	$dbName = "Databases/".$dbDirList[$dbNum]."/localization.sqlite";
-	$db = initDatabase ($dbName);
+	$dbPath = "Databases/".$dbDirList[$dbNum]."/localization.sqlite";
+	$db = initDatabase ($dbPath);
 	
 	$stmtP = $db->prepare($queryP);
 	$stmtP->setFetchMode(PDO::FETCH_OBJ);

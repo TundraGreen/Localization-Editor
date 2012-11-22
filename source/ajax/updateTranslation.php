@@ -30,11 +30,11 @@ require_once "phpUtils.php";
 $prefix = "../";
 require_once("getDatabaseList.php");
 
-if (isset($_COOKIE["dbNum"])) {
-	$dbNum = $_COOKIE["dbNum"];
+if (isset($_COOKIE["dbName"])) {
+	$dbName = $_COOKIE["dbName"];
 }
 else {
-	$dbNum = 0;
+	jsonReturn($dbName, true, 'No DB name');
 }
 
 
@@ -46,9 +46,9 @@ $text = $_POST['text'];
 $date = time();
 
 // Connect to the database with PDO
-$dbName = "../Databases/".$dbDirList[$dbNum]."/localization.sqlite";
+$dbPath = "../Databases/".$dbName."/localization.sqlite";
 
-$db = initDatabase ($dbName);
+$db = initDatabase ($dbPath);
 
 $query = "UPDATE translations SET langstring=? WHERE tid=?";
 $stmt = $db->prepare($query);

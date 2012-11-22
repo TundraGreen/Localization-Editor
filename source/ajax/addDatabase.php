@@ -26,43 +26,53 @@ require_once "phpUtils.php";
 $prefix = "../";
 require_once("getDatabaseList.php");
 
-$dbName = $_GET['name'];
+$dbName = $_POST['name'];
 foreach($dbDirList as $db ) {
 	if($dbName === $db) {
 		jsonReturn("Name taken",false, 'name collision');
 		exit();
 	}
 }
+mkdir("../Databases/".$dbName);
+$dbPath = "../Databases/".$dbName."/localization.sqlite";
+$fHdl = fopen($dbPath,'a');
+fclose($fHdl);
 
-/*
+$db = initDatabase ($dbPath);
 // Connect to the database with PDO
-$dbName = "../".$dbDirList[$dbNum]."/localization.sqlite";
 
-$db = initDatabase ($dbName);
+$query[] = <<<ENDQUERY
+CREATE TABLE languages
+(
+lid INTEGER PRIMARY KEY,
+langcode TEXT NOT NULL DEFAULT ''
+);
+ENDQUERY;
 
-$query = "INSERT INTO languages (langcode) VALUES (?)";
-$stmt = $db->prepare($query);
-$args = array($langString);
-doQuery($stmt, $args);
-$lid = $db->lastinsertid();
+$query[] = <<<ENDQUERY
+CREATE TABLE prompts
+(
+pid INTEGER PRIMARY KEY,
+promptstring TEXT NOT NULL DEFAULT ''
+);
+ENDQUERY;
 
-$queryP = "SELECT pid, promptstring FROM prompts";
-$stmtP = $db->prepare($queryP);
-$stmtP->setFetchMode(PDO::FETCH_OBJ);
-	
-$result = doQuery($stmtP, $empty);
+$query[] = <<<ENDQUERY
+CREATE TABLE translations
+(
+tid INTEGER PRIMARY KEY,
+langid INTEGER NOT NULL DEFAULT 0,
+promptid INTEGER NOT NULL DEFAULT 0,
+langstring TEXT NOT NULL DEFAULT ''
+);
+ENDQUERY;
 
-while ($record = $stmtP->fetch()) { // Returns false if no record
-	$promptString = $record->{promptstring};
-	$query = "INSERT INTO translations (langid, promptid, langstring) VALUES (?,?,?)";
-	$stmt = $db->prepare($query);
-	$args = array($lid, $record->{pid}, $promptString);
-	doQuery($stmt, $args);
+foreach($query as $q) {
+	$stmt = $db->prepare($q);
+	$args = array();
+	$result = doQuery($stmt, $args);
 }
-
-
 $db = null;
-*/
-jsonReturn($dbName, true, 'noerror');
+jsonReturn($result, true, 'noerror');
 ?>
 

@@ -26,11 +26,11 @@ require_once "phpUtils.php";
 $prefix = "../";
 require_once("getDatabaseList.php");
 
-if (isset($_COOKIE["dbNum"])) {
-	$dbNum = $_COOKIE["dbNum"];
+if (isset($_COOKIE["dbName"])) {
+	$dbName = $_COOKIE["dbName"];
 }
 else {
-	$dbNum = 0;
+	jsonReturn($dbName, true, 'No DB name');
 }
 
 
@@ -39,9 +39,9 @@ $uid = $_SESSION['uid'];
 $langString = $_POST['string'];
 
 // Connect to the database with PDO
-$dbName = "../Databases/".$dbDirList[$dbNum]."/localization.sqlite";
+$dbPath = "../Databases/".$dbName."/localization.sqlite";
 
-$db = initDatabase ($dbName);
+$db = initDatabase ($dbPath);
 
 $query = "INSERT INTO languages (langcode) VALUES (?)";
 $stmt = $db->prepare($query);
