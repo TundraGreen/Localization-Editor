@@ -292,7 +292,7 @@ function UpdateTranslation(id, ut, lang) {
 				if (!jsonObj.resultFlag) {
 					console.log("Response: "+xmlHttp.responseText);
 				}						
-//				window.location.reload();
+				window.location.reload();
 				saveBtnElem.disabled = true;
 				cancelBtnElem.disabled = true;
 			}
@@ -319,8 +319,12 @@ function selectDB () {
 			type: "POST",
 			url: "ajax/addDatabase.php",
 			data: {name: name},
-			success: function(data) {
-				alert("data"+data);
+			complete: function(data) {
+				var jsonObj = JSON.parse(data.responseText);
+				alert (jsonObj.output);
+				if (!jsonObj.resultFlag) {
+					console.log("Response: "+xmlHttp.responseText);
+				}						
 			}
 		});
 	}
