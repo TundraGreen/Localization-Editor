@@ -46,6 +46,7 @@ $stmt = $db->prepare($query);
 $args = array($string);
 doQuery($stmt, $args);
 $pid = $db->lastinsertid();
+setcookie("pid", $pid, time()+60*60*24*30, "/");
 
 $queryL = "SELECT lid FROM languages";
 $stmtL = $db->prepare($queryL);

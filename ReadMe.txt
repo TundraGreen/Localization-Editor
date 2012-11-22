@@ -18,6 +18,9 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.3 (Build 10)
+	Fixed minor bug.
+	After new prompt is added, it is now selected.
 Version 1.3 (Build 9)
 	Includes option to create a new database.
 Version 1.2.1 (Build 8)
