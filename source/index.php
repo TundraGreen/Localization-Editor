@@ -16,6 +16,20 @@ Redistribution and use in source and binary forms, with or without modification,
 THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
+/* Preliminaries */	
+
+	if (isset($_COOKIE["dbNum"])) {
+		$dbNum = $_COOKIE["dbNum"];
+	}
+	else {
+		$dbNum = 0;
+	}
+	
+	$prefix = "";
+	require_once("ajax/getDatabaseList.php");
+	require "ajax/phpUtils.php";
+	date_default_timezone_set('America/Mexico_City');
+	$pid = $_COOKIE["pid"];
 ?>
 <!DOCTYPE html>
 
@@ -31,14 +45,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 </head>
 <body onLoad="handleEvent('init')">
 <?php
-if (isset($_COOKIE["dbNum"])) {
-	$dbNum = $_COOKIE["dbNum"];
-}
-else {
-	$dbNum = 0;
-}
-include_once("config.php");
-$pid = $_COOKIE["pid"];
+
 ?>
 <div id="page">
 <div id="content">
@@ -49,6 +56,7 @@ $pid = $_COOKIE["pid"];
 	Select database:<br />
 	<form>
 	<select id="pickDB" onchange="selectDB()">
+		<option value="new">New...</option>
 <?php
 	for($i=0; $i<count($dbDirList); $i++) {
 		print "\t\t<option";
@@ -68,10 +76,6 @@ $pid = $_COOKIE["pid"];
 
 
 <?php
-/* Preliminaries */	
-
-	require "ajax/phpUtils.php";
-	date_default_timezone_set('America/Mexico_City');
 	
 	$queryL = "SELECT lid, langcode FROM languages";
 	$queryP = "SELECT pid, promptstring FROM prompts ORDER BY promptstring";
@@ -79,7 +83,7 @@ $pid = $_COOKIE["pid"];
 	$empty = array();
 
 	// Connect to the database with PDO
-	$dbName = $dbDirList[$dbNum]."/localization.sqlite";
+	$dbName = "Databases/".$dbDirList[$dbNum]."/localization.sqlite";
 	$db = initDatabase ($dbName);
 	
 	$stmtP = $db->prepare($queryP);

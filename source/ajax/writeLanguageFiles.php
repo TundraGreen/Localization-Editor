@@ -25,7 +25,8 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 header('Content-type: application/json');
 
 require_once "phpUtils.php";
-require_once("../config.php");
+$prefix = "ajax/";
+require_once("getDatabaseList.php");
 
 if (isset($_COOKIE["dbNum"])) {
 	$dbNum = $_COOKIE["dbNum"];

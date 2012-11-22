@@ -27,8 +27,8 @@ v 1.0 2012-04-09
 
 header('Content-type: application/json');
 require_once "phpUtils.php";
-
-require_once("../config.php");
+$prefix = "../";
+require_once("getDatabaseList.php");
 
 if (isset($_COOKIE["dbNum"])) {
 	$dbNum = $_COOKIE["dbNum"];
@@ -46,13 +46,14 @@ $text = $_POST['text'];
 $date = time();
 
 // Connect to the database with PDO
-$dbName = "../".$dbDirList[$dbNum]."/localization.sqlite";
+$dbName = "../Databases/".$dbDirList[$dbNum]."/localization.sqlite";
+
 $db = initDatabase ($dbName);
 
 $query = "UPDATE translations SET langstring=? WHERE tid=?";
 $stmt = $db->prepare($query);
 $args = array($text, $tid);
-doQuery($stmt, $args);
+$result = doQuery($stmt, $args);
 		
 
 

@@ -22,7 +22,8 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 #
 header('Content-type: application/json');
 require_once "phpUtils.php";
-require_once("../config.php");
+$prefix = "../";
+require_once("getDatabaseList.php");
 
 if (isset($_COOKIE["dbNum"])) {
 	$dbNum = $_COOKIE["dbNum"];
@@ -36,7 +37,7 @@ $uid = $_SESSION['uid'];
 $string = $_POST['string'];
 
 // Connect to the database with PDO
-$dbName = "../".$dbDirList[$dbNum]."/localization.sqlite";
+$dbName = "../Databases/".$dbDirList[$dbNum]."/localization.sqlite";
 $db = initDatabase ($dbName);
 
 $query = "INSERT INTO prompts (promptstring) VALUES (?)";

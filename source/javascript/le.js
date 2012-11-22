@@ -313,9 +313,22 @@ function UpdateTranslation(id, ut, lang) {
 UpdateTranslation.prototype = new ControlElement();
 
 function selectDB () {
-	$.cookie('dbNum',$('#pickDB option:selected').val());
-//	console.log( $.cookie('dbNum') );
-	window.location.reload(true);
+	if ( $('#pickDB option:selected').val() ==="new") {
+		var name = prompt('Enter name for new database');
+		$.ajax({
+			type: "POST",
+			url: "ajax/addDatabase.php",
+			data: {name: name},
+			success: function(data) {
+				alert("data"+data);
+			}
+		});
+	}
+	else {
+		$.cookie('dbNum',$('#pickDB option:selected').val());
+//		console.log( $.cookie('dbNum') );
+		window.location.reload(true);
+	}
 }
 
 function writeFiles() {

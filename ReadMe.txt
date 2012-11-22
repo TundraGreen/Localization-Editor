@@ -18,6 +18,9 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.2.1 (Build 7)
+	Debug new location of databases.
+	Partially implement code to add a new database.
 Version 1.2 (Build 6)
 	Updated addLanguage.php and addPrompt.php and updateTranslation.php
 	to find database in new place.

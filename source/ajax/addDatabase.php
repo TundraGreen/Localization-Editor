@@ -1,4 +1,5 @@
 <?php
+session_start();
 /*
 Copyright © 2012 William H. Prescott. All Rights Reserved.
 
@@ -15,16 +16,53 @@ Redistribution and use in source and binary forms, with or without modification,
 THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
+# 
+# addDatabase.php
+# W. Prescott 2012-11-21
+#
 
-// 
-// config.php
-// W. Prescott 2012-11-18
-//
+header('Content-type: application/json');
+require_once "phpUtils.php";
+$prefix = "../";
+require_once("getDatabaseList.php");
 
-// List of language directories
-$dbDirList = array (
-	"optimismodis",
-	"westanchorage",
-	"theprescotts"
-);
+$dbName = $_GET['name'];
+foreach($dbDirList as $db ) {
+	if($dbName === $db) {
+		jsonReturn("Name taken",false, 'name collision');
+		exit();
+	}
+}
+
+/*
+// Connect to the database with PDO
+$dbName = "../".$dbDirList[$dbNum]."/localization.sqlite";
+
+$db = initDatabase ($dbName);
+
+$query = "INSERT INTO languages (langcode) VALUES (?)";
+$stmt = $db->prepare($query);
+$args = array($langString);
+doQuery($stmt, $args);
+$lid = $db->lastinsertid();
+
+$queryP = "SELECT pid, promptstring FROM prompts";
+$stmtP = $db->prepare($queryP);
+$stmtP->setFetchMode(PDO::FETCH_OBJ);
+	
+$result = doQuery($stmtP, $empty);
+
+while ($record = $stmtP->fetch()) { // Returns false if no record
+	$promptString = $record->{promptstring};
+	$query = "INSERT INTO translations (langid, promptid, langstring) VALUES (?,?,?)";
+	$stmt = $db->prepare($query);
+	$args = array($lid, $record->{pid}, $promptString);
+	doQuery($stmt, $args);
+}
+
+
+$db = null;
+*/
+jsonReturn($dbName, true, 'noerror');
 ?>
+
