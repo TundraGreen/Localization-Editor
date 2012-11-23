@@ -25,14 +25,12 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 header('Content-type: application/json');
 
 require_once "phpUtils.php";
-$prefix = "ajax/";
-require_once("getDatabaseList.php");
 
-if (isset($_COOKIE["dbNum"])) {
-	$dbNum = $_COOKIE["dbNum"];
+if (isset($_COOKIE["dbName"])) {
+	$dbName = $_COOKIE["dbName"];
 }
 else {
-	$dbNum = 0;
+	jsonReturn($dbName, true, 'No DB name');
 }
 
 
@@ -41,8 +39,9 @@ else {
 date_default_timezone_set('America/Mexico_City');
 
 // Connect to the database with PDO
-$dbName = "../".$dbDirList[$dbNum]."/localization.sqlite";
-$db = initDatabase ($dbName);
+$dbPath = "../Databases/".$dbName."/localization.sqlite";
+
+$db = initDatabase ($dbPath);
 
 $empty = array();
 
@@ -59,11 +58,11 @@ $stmtP->setFetchMode(PDO::FETCH_OBJ);
 $stmtT = $db->prepare($queryT);
 $stmtT->setFetchMode(PDO::FETCH_OBJ);
 
-doQuery($stmtL, $empty);
-$result = "";
+$result = doQuery($stmtL, $empty);
+
 while ($recordL = $stmtL->fetch()) { // Returns false if no record
-	doQuery($stmtP, $empty);
-	$fileName =  "../".$dbDirList[$dbNum]."/".$recordL->{langcode}.".php";
+	$result .= "\n".doQuery($stmtP, $empty);
+	$fileName =  "../Databases/".$dbName."/".$recordL->{langcode}.".php";
 	$fHdl = fopen($fileName, 'w');
 	$output = "<?php\n";
 	fwrite($fHdl, $output);

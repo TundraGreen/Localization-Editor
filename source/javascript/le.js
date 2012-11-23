@@ -338,7 +338,13 @@ function selectDB () {
 
 function writeFiles() {
 	$.ajax({
-		url:"ajax/writeLanguageFiles.php"
+		url:"ajax/writeLanguageFiles.php",
+		complete: function(data) {
+			var jsonObj = JSON.parse(data.responseText);
+			if (!jsonObj.resultFlag) {
+				console.log("Error: "+jsonObj.error);
+			}
+		}
 	});	
 }
 

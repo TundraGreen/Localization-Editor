@@ -31,7 +31,7 @@ function initDatabase($name) {
 
 function doQuery($stmt, $args) {
 	try {
-		$stmt->execute($args);
+		return $stmt->execute($args);
 	}
 	catch (PDOException $e) {
 		$errorMessage = "errMessage: ".$e->getMessage()."\n";

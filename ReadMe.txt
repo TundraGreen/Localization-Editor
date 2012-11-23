@@ -18,6 +18,9 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.3 (Build 13)
+	Fixed bug in writeLanguageFiles.php
+	It had not been updated to use dbName cookie.
 Version 1.3 (Build 12)
 	When a new database is created,
 	make it the active database.
