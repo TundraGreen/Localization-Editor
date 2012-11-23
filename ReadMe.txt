@@ -18,6 +18,9 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.3 (Build 12)
+	When a new database is created,
+	make it the active database.
 Version 1.3 (Build 11)
 	Updated Overview to explain recent additions:
 	Multiple databases

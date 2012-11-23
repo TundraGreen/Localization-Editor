@@ -73,6 +73,7 @@ foreach($query as $q) {
 	$result = doQuery($stmt, $args);
 }
 $db = null;
+setcookie("dbName", $dbName, time()+60*60*24*30, "/");
 jsonReturn($result, true, 'noerror');
 ?>
 
