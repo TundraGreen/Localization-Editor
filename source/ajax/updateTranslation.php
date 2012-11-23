@@ -27,8 +27,8 @@ v 1.0 2012-04-09
 
 header('Content-type: application/json');
 require_once "phpUtils.php";
-$prefix = "../";
-require_once("getDatabaseList.php");
+//$prefix = "../";
+//require_once("getDatabaseList.php");
 
 if (isset($_COOKIE["dbName"])) {
 	$dbName = $_COOKIE["dbName"];

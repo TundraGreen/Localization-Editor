@@ -19,6 +19,9 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 Version history
 ---------------
 Version 1.3 (Build 13)
+	Fixed bug that could occur if active database is removed
+	so cookie points at nonexistent database.
+Version 1.3 (Build 13)
 	Fixed bug in writeLanguageFiles.php
 	It had not been updated to use dbName cookie.
 Version 1.3 (Build 12)
@@ -79,7 +82,7 @@ local might return "Hello World", or "Hola Mundo", or "Hallo Welt".
 2023-11-22
 The Editor has been updated to handle multiple localization databases more smoothly. In the original implementation it operated on a single database location and it was up to the user to swap the databases around if there was more than one.
 
-Now it stores the databases in a Databases folder. The Databases folder contains an sqlite file with the localization info. There is now a dropdown menu to allow switching between the databases in Databases. In addition it is now possible to write all the translations strings to file, with one file for each language. This allows use of the localization with out any database calls. The user can just point the pages at the appropriate language. For US english, include the en_US.php file, for Spanish, the es_MX.php file. Each language file contains php define statements for all the prompts. A simmple <?php print hello_world ?> will result in "Hello World" or "Hola Mundo" depending on which file has been included.
+Now it stores the localization info in subfolders under a Databases folder. Each subfolder contains an sqlite file with the localization info. There is now a dropdown menu to allow switching between the options in Databases. In addition it is now possible to write all the translations strings to files, with one file for each language. This allows use of the localization with out any database calls. The user can just point the pages at the appropriate language. For US english, include the en_US.php file, for Spanish, the es_MX.php file. Each language file contains php define statements for all the prompts. To use them simply include the appropriate language file, then <?php print hello_world ?> will result in "Hello World" or "Hola Mundo" depending on which file has been included.
 
 
 System components

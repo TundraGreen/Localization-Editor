@@ -22,6 +22,11 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	require_once("ajax/getDatabaseList.php");
 	if (isset($_COOKIE["dbName"])) {
 		$dbName = $_COOKIE["dbName"];
+		// Handle case where cookies points to a non-existence database
+		if( !array_search($dbName, $dbDirList) ) {
+			$dbName = $dbDirList[0];
+			setcookie("dbName", $dbName, time()+60*60*24*30, "/");
+		}
 	}
 	else {
 		$dbName = $dbDirList[0];
