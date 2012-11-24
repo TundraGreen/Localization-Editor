@@ -47,11 +47,12 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	<title>Localization Editor</title> 
 	<link href="estilos/master.css" rel="stylesheet" type="text/css" />
 	<link href="estilos/le.css" rel="stylesheet" type="text/css" />
-	<script src="javascript/le.js" type="text/javascript"></script>
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
 	<script src="javascript/jquery.cookie.js" type="text/javascript"></script>
+	<script src="javascript/le.js" type="text/javascript"></script>
 </head>
-<body onLoad="handleEvent('init')">
+<body>
 <?php
 
 ?>
@@ -120,8 +121,8 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 		print ("<div class=\"promptEntry\">\n");	
 		print ("<input type=\"radio\"\n ");
 		print ("\tname=\"promptSelected\"\n ");
+		print ("\tid=\"prompt_".$record->{pid}."\"\n ");
 		print ("\tvalue=\"".$record->{pid}."\"\n ");
-		print ("\tonchange=\"handleEvent('selectPrompt')\"\n");	
 		if ($record->{pid} == $pid) print ("\tchecked\n");
 		print ("/>\n");	
 		print ("\t".$record->{promptstring}."\n");	

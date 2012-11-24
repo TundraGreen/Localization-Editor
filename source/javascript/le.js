@@ -19,107 +19,29 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 "use strict";
 
-var localization;
+// someTextAreaChanged keeps track of changed translation blocks
+// it is used to prevent user from changing prompts with unsaved changed blocks
+var someTextAreaChanged = [];
 
 
-/**
-* This class provides general methods for all page objects.
-* Most buttons and checkboxes on the page extend this objec
-    @class Prototype for all web page control elements. 
-*/
-function ControlElement(id) {
-	this.element = document.getElementById(id);
-	this.disable = function () {
-		this.element.disabled = true;
-	};
-	this.enable = function () {
-		this.element.disabled = false;
-	};
-	this.getEnabled = function () {
-		return !this.element.disabled;
-	};
-	this.getState = function () {
-		return this.element.checked;
-	};
-	this.getValue = function () {
-		return this.element.value;
-	};
-	this.setState = function () {
-		this.element.checked = true;
-	};
-	this.setValue = function (val) {
-		this.element.value = val;
-	};
-}
-
-/**
-	@class Handles selecting a prompt string
-*/
-function SelectPrompt(id, ut) {
-	ControlElement.call(this, id);
-	this.onChange = function (local) {
-		var plElem = document.getElementById('promptList');
-		var radioBtnElem = document.forms['promptList'].elements;
-		var chkdValue = getCheckedValue(radioBtnElem);
-		if (someTextAreaChanged) {
+$(document).ready(function() {
+	$('#promptList').change(function() {
+		if (someTextAreaChanged.length > 0) {
 			if (confirm("Some text has changed.\n"
 				+ "Switching prompts will lose the changes.\n"
 				+ "Click OK to discard changes.\n"
 				+ "Click Cancel to go back without losing changes.")) {
 			}
 			else {
-				return;		
+				$('[name="promptSelected" ][value="' + $.cookie('pid') + '"]').attr('checked', true)
+				return;         
 			}
 		}
-		$.cookie('pid', chkdValue, {path:"/"});
-		window.location.reload(true);
-	};
-	// From http://www2.somacon.com/p516.php
-	// return the value of the radio button that is checked
-	// return an empty string if none are checked, or
-	// there are no radio buttons
-	function getCheckedValue(radioObj) {
-		if(!radioObj)
-			return "";
-		var radioLength = radioObj.length;
-		if(radioLength == undefined)
-			if(radioObj.checked)
-				return radioObj.value;
-			else
-				return "";
-		for(var i = 0; i < radioLength; i++) {
-			if(radioObj[i].checked) {
-				return radioObj[i].value;
-			}
-		}
-		return "";
-	}
-	
-	// From http://www2.somacon.com/p516.php
-	// set the radio button with the given value as being checked
-	// do nothing if there are no radio buttons
-	// if the given value does not exist, all the radio buttons
-	// are reset to unchecked
-	function setCheckedValue(radioObj, newValue) {
-		if(!radioObj)
-			return;
-		var radioLength = radioObj.length;
-		if(radioLength == undefined) {
-			radioObj.checked = (radioObj.value == newValue.toString());
-			return;
-		}
-		for(var i = 0; i < radioLength; i++) {
-			radioObj[i].checked = false;
-			if(radioObj[i].value == newValue.toString()) {
-				radioObj[i].checked = true;
-			}
-		}
-	}
-}
-SelectPrompt.prototype = new ControlElement();
-
-
-var someTextAreaChanged = false;
+		$.cookie('pid', $("input[name='promptSelected']:checked").val(), {path:"/"});
+		window.location.reload(true);							
+	});
+});
+    
 
 function addLanguage () {
 	var langCode = $("#addLanguage").val();
@@ -176,6 +98,23 @@ function newDB () {
 	});
 }
 
+function pushUnique(arr, val) {
+    for(var i=0; i<arr.length; i++) {
+        if(arr[i] == val) {
+            return;
+        }
+    }
+	arr.push(val);
+}
+
+function removeByValue(arr, val) {
+    for(var i=0; i<arr.length; i++) {
+        if(arr[i] == val) {
+            arr.splice(i, 1);
+            break;
+        }
+    }
+}
 function selectDB () {
 	$.cookie('dbName',$('#pickDB option:selected').val(),{path:"/"});
 	window.location.reload(true);
@@ -184,7 +123,7 @@ function selectDB () {
 function translationTextChanged (tid) {
 	$("#saveBtn-"+tid).removeAttr('disabled');							
 	$("#cancelBtn-"+tid).removeAttr('disabled');
-	someTextAreaChanged = true;							
+	pushUnique(someTextAreaChanged, tid);							
 }
 
 function updateTranslation (tid) {
@@ -198,8 +137,7 @@ function updateTranslation (tid) {
 			if (!jsonObj.resultFlag) {
 				console.log("Response: "+jsonObj.error);
 			}
-			window.location.reload(true);
-			someTextAreaChanged = false;
+			removeByValue(someTextAreaChanged, tid);
 		}
 	});
 }
@@ -216,39 +154,6 @@ function writeFiles() {
 	});	
 }
 
-/**
-	@class Handles response to user input as directed by HandleEvents
-*/
-function Localization () {
-	var index;
-	this.version = "6.1.0:2009-06-11";
-	// Check for the various File API support.
-	
-	// Controls
-	
-	this.selectPrompt = new SelectPrompt("SelectPrompt", this.util);
-	
-	this.selectPromptOnChange = function () {
-		this.selectPrompt.onChange(this);
-	};
-}
-/**
-	Handles user activity on web page
-*/
-function handleEvent(type, parameter) {
-	switch (type) {
-		case "init":
-			localization = new Localization(); // This is global, hopefully the only global.
-			return this;
-			break;
-		case "selectPrompt":
-			localization.selectPromptOnChange();
-			break;
-		default:
-			alert("handleEvents: Type not found: " + type );
-			break; 
-	}
-}
 
 /* ------------------------ Debug utilities --------------------------------*/
 function dumpProperties(obj, objName) {
