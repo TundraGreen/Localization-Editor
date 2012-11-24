@@ -105,7 +105,7 @@ function CookieHandler() {
 /**
 	@class Handles selecting a prompt string
 */
-function SelectPrompt(id, ut, lang) {
+function SelectPrompt(id, ut) {
 	ControlElement.call(this, id);
 	this.onChange = function (local) {
 		var plElem = document.getElementById('promptList');
@@ -169,41 +169,9 @@ function SelectPrompt(id, ut, lang) {
 SelectPrompt.prototype = new ControlElement();
 
 /**
-	@class Handles the language selection
-*/
-function LanguageButton(id) {
-	ControlElement.call(this, id);
-	this.onClick = function (optim, cookieHdl) {
-		var language;
-		language = cookieHdl.readCookie("language");
-		// Note: If current language is es, 
-		// make it en and visa versa
-		if (language === null || language === "es") {
-			cookieHdl.createCookie("language", "en", 1000);
-			optim.langFlag = "en";
-			window.location.reload(true);
-		}
-		else {
-			cookieHdl.createCookie("language", "es", 1000);
-			optim.langFlag = "es";
-			window.location.reload(true);
-		}
-	};
-	this.getLanguage = function (cookieHdl) {
-		var langFlag = cookieHdl.readCookie("language");
-		if (langFlag === null) {
-			langFlag = "en";
-			cookieHdl.createCookie("language", "en", 1000);
-		}
-		return langFlag;
-	};
-}
-LanguageButton.prototype = new ControlElement();
-
-/**
 	@class Handles updating a translation block
 */
-function UpdateTranslation(id, ut, lang) {
+function UpdateTranslation(id, ut) {
 	ControlElement.call(this, id);
 	// Note:
 	// in editRecord, id is the id of the record being edited
@@ -372,13 +340,11 @@ function Localization () {
 	
 	// Controls
 	this.cookieHandler = new CookieHandler();
-	this.languageButton = new LanguageButton("Language");
-	this.langFlag = this.languageButton.getLanguage(this.cookieHandler);
 	this.util = new Utilities();
 	
-	this.cancelTranslation = new CancelTranslation("CancelTranslation", this.util, this.langFlag);
-	this.selectPrompt = new SelectPrompt("SelectPrompt", this.util, this.langFlag);
-	this.updateTranslation = new UpdateTranslation("UpdateTranslation", this.util, this.langFlag);
+	this.cancelTranslation = new CancelTranslation("CancelTranslation", this.util);
+	this.selectPrompt = new SelectPrompt("SelectPrompt", this.util);
+	this.updateTranslation = new UpdateTranslation("UpdateTranslation", this.util);
 
 	this.someTextAreaChanged = false;
 	
