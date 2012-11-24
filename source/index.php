@@ -187,7 +187,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 		print ("\tid=\"cancelBtn-".$tid."\"\n");
 		print ("\tvalue=\"Cancel\"\n");
 		print ("\tdisabled\n");
-		print ("\tonclick=\"handleEvent('cancelTranslation')\"\n");
+		print ("\tonclick=\"cancelTranslation()\"\n");
 		print ("/>\n");
 		print ($recordL->{langcode}.":\n");
 		print ("</div>\n");

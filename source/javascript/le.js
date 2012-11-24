@@ -23,18 +23,6 @@ var localization;
 
 
 /**
-	@class Handles the translation cancellation
-*/
-function CancelTranslation(id) {
-	ControlElement.call(this, id);
-	this.onClick = function () {
-//		console.log("Debug 0");
-		window.location.reload(true);
-	};
-}
-CancelTranslation.prototype = new ControlElement();
-
-/**
 * This class provides general methods for all page objects.
 * Most buttons and checkboxes on the page extend this objec
     @class Prototype for all web page control elements. 
@@ -208,6 +196,10 @@ function addPrompt () {
 	});
 }
 
+function cancelTranslation () {
+	window.location.reload(true);
+}
+
 function newDB () {
 	var name = prompt('Enter name for new database');
 	if (name === null || name === '') {
@@ -303,15 +295,12 @@ function Localization () {
 	// Controls
 	this.util = new Utilities();
 	
-	this.cancelTranslation = new CancelTranslation("CancelTranslation", this.util);
+//	this.cancelTranslation = new CancelTranslation("CancelTranslation", this.util);
 	this.selectPrompt = new SelectPrompt("SelectPrompt", this.util);
 	this.updateTranslation = new UpdateTranslation("UpdateTranslation", this.util);
 
 	this.someTextAreaChanged = false;
 	
-	this.cancelTranslationOnClick = function () {
-		this.cancelTranslation.onClick();
-	};
 	this.selectPromptOnChange = function () {
 		this.selectPrompt.onChange(this);
 	};
@@ -332,9 +321,6 @@ function handleEvent(type, parameter) {
 		case "init":
 			localization = new Localization(); // This is global, hopefully the only global.
 			return this;
-			break;
-		case "cancelTranslation":
-			localization.cancelTranslationOnClick();
 			break;
 		case "selectPrompt":
 			localization.selectPromptOnChange();
