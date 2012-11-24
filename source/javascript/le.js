@@ -217,54 +217,6 @@ function writeFiles() {
 }
 
 /**
-	@class Useful methods
-*/
-function Utilities() {
-	/**
-	* Defines xmlhttp for all browsers
-	*/
-	this.ajaxFunction = function () {
-		var xmlHttp;
-		try {
-			// Firefox, Opera 8.0+, Safari
-			xmlHttp = new XMLHttpRequest();
-		}
-		catch (e1) { // Internet Explorer
-			try {
-				xmlHttp=new ActiveXObject("Msxml2.XMLHTTP");
-			}
-			catch (e2) {
-				try {
-					xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
-				}
-				catch (e3) {
-					alert("Optim:ajaxFunction: Your browser does not support AJAX.");
-				return false;
-				}
-			}
-		}
-		return xmlHttp;
-	};
-	this.returnObjById = function (id) {
-		var returnVar;
-		if (document.getElementById) {
-			returnVar = document.getElementById(id);
-		}
-		else if (document.all) {
-			returnVar = document.all[id];
-		}
-		else if (document.layers) {
-			returnVar = document.layers[id];
-		}
-		return returnVar;
-	};
-
-	this.fixDisplayText = function (string) {
-		return string.replace(/\r\n|\r|\n|\n\r/g , '<br />');
-	};	
-}
-
-/**
 	@class Handles response to user input as directed by HandleEvents
 */
 function Localization () {
@@ -273,7 +225,6 @@ function Localization () {
 	// Check for the various File API support.
 	
 	// Controls
-	this.util = new Utilities();
 	
 	this.selectPrompt = new SelectPrompt("SelectPrompt", this.util);
 	
