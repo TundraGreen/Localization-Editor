@@ -139,7 +139,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	print ("<input type=\"submit\"\n");
 	print ("\tvalue=\"Add\"\n");
 	print ("\tname=\"promptAdded\"\n");
-	print ("\tonclick=\"handleEvent('addPrompt')\"\n");
+	print ("\tonclick=\"addPrompt()\"\n");
 	print ("/>\n");
 	print ("</div>\n");
 
@@ -152,8 +152,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	print ("<input type=\"submit\"\n");
 	print ("\tvalue=\"Add\"\n");
 	print ("\tname=\"promptAdded\"\n");
-//	print ("\tonclick=\"addLanguage()\"\n");
-	print ("\tonclick=\"handleEvent('addLanguage')\"\n");
+	print ("\tonclick=\"addLanguage()\"\n");
 	print ("/>\n");
 	print ("</div>\n");
 	print ("</div>\n");

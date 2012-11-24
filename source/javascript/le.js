@@ -21,71 +21,6 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 var localization;
 
-/**
-	@class Handles the the adding a new prompt
-*/
-function AddLanguage(id, ut, lang) {
-	ControlElement.call(this, id);
-	this.onClick = function () {
-		var langElem = document.getElementById('addLanguage');
-		var langValue = langElem.value;
-		
-		var url = "ajax/addLanguage.php";
-		var request = "string=" + langValue;
-		
-		var xmlHttp = ut.ajaxFunction();
-		xmlHttp.onreadystatechange = function () {
-			if(xmlHttp.readyState === 4) {
-				var jsonObj = JSON.parse(xmlHttp.responseText);
-				if (!jsonObj.resultFlag) {
-					console.log("Response: "+xmlHttp.responseText);
-				}						
-				window.location.reload(true);
-			}
-		};
-		xmlHttp.open("POST",url,true);
-		xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xmlHttp.setRequestHeader("Content-length", request.length);
-		xmlHttp.setRequestHeader("Connection", "close");		
-		xmlHttp.send(request);
-/*
-*/
-	};
-}
-AddLanguage.prototype = new ControlElement();
-
-/**
-	@class Handles the the adding a new prompt
-*/
-function AddPrompt(id, ut, lang) {
-	ControlElement.call(this, id);
-	this.onClick = function () {
-		var promptElem = document.getElementById('addPrompt');
-		var promptValue = promptElem.value;
-		
-		var url = "ajax/addPrompt.php";
-		var request = "string=" + promptValue;
-		
-		var xmlHttp = ut.ajaxFunction();
-		xmlHttp.onreadystatechange = function () {
-			if(xmlHttp.readyState === 4) {
-				var jsonObj = JSON.parse(xmlHttp.responseText);
-				if (!jsonObj.resultFlag) {
-					console.log("Response: "+xmlHttp.responseText);
-				}						
-				window.location.reload(true);
-			}
-		};
-		xmlHttp.open("POST",url,true);
-		xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xmlHttp.setRequestHeader("Content-length", request.length);
-		xmlHttp.setRequestHeader("Connection", "close");		
-		xmlHttp.send(request);
-/*
-*/
-	};
-}
-AddPrompt.prototype = new ControlElement();
 
 /**
 	@class Handles the translation cancellation
@@ -311,6 +246,37 @@ function UpdateTranslation(id, ut, lang) {
 	};
 }
 UpdateTranslation.prototype = new ControlElement();
+function addLanguage () {
+	var langCode = $("#addLanguage").val();
+	$.ajax({
+		type: "POST",
+		url: "ajax/addLanguage.php",
+		data: {string: langCode},
+		complete: function(data) {
+			var jsonObj = JSON.parse(data.responseText);
+			if (!jsonObj.resultFlag) {
+				console.log("Response: "+jsonObj.error);
+			}
+			window.location.reload(true);							
+		}
+	});
+}
+
+function addPrompt () {
+	var prompt = $("#addPrompt").val();
+	$.ajax({
+		type: "POST",
+		url: "ajax/addPrompt.php",
+		data: {string: prompt},
+		complete: function(data) {
+			var jsonObj = JSON.parse(data.responseText);
+			if (!jsonObj.resultFlag) {
+				console.log("Response: "+jsonObj.error);
+			}
+			window.location.reload(true);							
+		}
+	});
+}
 
 function newDB () {
 	var name = prompt('Enter name for new database');
@@ -410,20 +376,12 @@ function Localization () {
 	this.langFlag = this.languageButton.getLanguage(this.cookieHandler);
 	this.util = new Utilities();
 	
-	this.addLanguage = new AddLanguage("AddLanguage", this.util, this.langFlag);
-	this.addPrompt = new AddPrompt("AddPrompt", this.util, this.langFlag);
 	this.cancelTranslation = new CancelTranslation("CancelTranslation", this.util, this.langFlag);
 	this.selectPrompt = new SelectPrompt("SelectPrompt", this.util, this.langFlag);
 	this.updateTranslation = new UpdateTranslation("UpdateTranslation", this.util, this.langFlag);
 
 	this.someTextAreaChanged = false;
 	
-	this.addLanguageOnClick = function () {
-		this.addLanguage.onClick();
-	};
-	this.addPromptOnClick = function () {
-		this.addPrompt.onClick();
-	};
 	this.cancelTranslationOnClick = function () {
 		this.cancelTranslation.onClick();
 	};
@@ -447,12 +405,6 @@ function handleEvent(type, parameter) {
 		case "init":
 			localization = new Localization(); // This is global, hopefully the only global.
 			return this;
-			break;
-		case "addLanguage":
-			localization.addLanguageOnClick();
-			break;
-		case "addPrompt":
-			localization.addPromptOnClick();
 			break;
 		case "cancelTranslation":
 			localization.cancelTranslationOnClick();
