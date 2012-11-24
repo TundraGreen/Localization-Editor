@@ -61,7 +61,7 @@ function SelectPrompt(id, ut) {
 		var plElem = document.getElementById('promptList');
 		var radioBtnElem = document.forms['promptList'].elements;
 		var chkdValue = getCheckedValue(radioBtnElem);
-		if (local.someTextAreaChanged) {
+		if (someTextAreaChanged) {
 			if (confirm("Some text has changed.\n"
 				+ "Switching prompts will lose the changes.\n"
 				+ "Click OK to discard changes.\n"
@@ -118,52 +118,9 @@ function SelectPrompt(id, ut) {
 }
 SelectPrompt.prototype = new ControlElement();
 
-/**
-	@class Handles updating a translation block
-*/
-function UpdateTranslation(id, ut) {
-	ControlElement.call(this, id);
-	// Note:
-	// in editRecord, id is the id of the record being edited
-	// in addRecord, id is the id of related record in another table
-	//	ie in adding a comment, id is the id of the owning answer record
-	//	ie in adding a answer, id is the id of the owning question record
-	//
-	this.onClick = function (tid) {
-		var saveBtnElem = document.getElementById('saveBtn-' + tid);
-		var cancelBtnElem = document.getElementById('cancelBtn-' + tid);
-		var editorTextareaElem = document.getElementById('langstring-' + tid);
-		var text = editorTextareaElem.value;
-		var url = "ajax/updateTranslation.php";
-		var request = "tid=" + tid;
-		request += "&text=" + encodeURIComponent(text);
-		
-		var xmlHttp = ut.ajaxFunction();
-		xmlHttp.onreadystatechange = function () {
-			if(xmlHttp.readyState === 4) {
-				var jsonObj = JSON.parse(xmlHttp.responseText);
-				if (!jsonObj.resultFlag) {
-					console.log("Response: "+xmlHttp.responseText);
-				}						
-				window.location.reload();
-				saveBtnElem.disabled = true;
-				cancelBtnElem.disabled = true;
-			}
-		};
-		xmlHttp.open("POST",url,true);
-		xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xmlHttp.setRequestHeader("Content-length", request.length);
-		xmlHttp.setRequestHeader("Connection", "close");		
-		xmlHttp.send(request);
-	};
-	this.onKeyPress = function(tid) {
-		var saveBtnElem = document.getElementById('saveBtn-' + tid);
-		var cancelBtnElem = document.getElementById('cancelBtn-' + tid);
-		saveBtnElem.disabled = false;
-		cancelBtnElem.disabled = false;
-	};
-}
-UpdateTranslation.prototype = new ControlElement();
+
+var someTextAreaChanged = false;
+
 function addLanguage () {
 	var langCode = $("#addLanguage").val();
 	$.ajax({
@@ -222,6 +179,29 @@ function newDB () {
 function selectDB () {
 	$.cookie('dbName',$('#pickDB option:selected').val(),{path:"/"});
 	window.location.reload(true);
+}
+
+function translationTextChanged (tid) {
+	$("#saveBtn-"+tid).removeAttr('disabled');							
+	$("#cancelBtn-"+tid).removeAttr('disabled');
+	someTextAreaChanged = true;							
+}
+
+function updateTranslation (tid) {
+	var langStr = $("#langstring-"+tid).val();
+	$.ajax({
+		type: "POST",
+		url: "ajax/updateTranslation.php",
+		data: {tid: tid, text: langStr},
+		complete: function(data) {
+			var jsonObj = JSON.parse(data.responseText);
+			if (!jsonObj.resultFlag) {
+				console.log("Response: "+jsonObj.error);
+			}
+			window.location.reload(true);
+			someTextAreaChanged = false;
+		}
+	});
 }
 
 function writeFiles() {
@@ -295,22 +275,10 @@ function Localization () {
 	// Controls
 	this.util = new Utilities();
 	
-//	this.cancelTranslation = new CancelTranslation("CancelTranslation", this.util);
 	this.selectPrompt = new SelectPrompt("SelectPrompt", this.util);
-	this.updateTranslation = new UpdateTranslation("UpdateTranslation", this.util);
-
-	this.someTextAreaChanged = false;
 	
 	this.selectPromptOnChange = function () {
 		this.selectPrompt.onChange(this);
-	};
-	this.updateTranslationOnKeyPress = function (tid) {
-		this.someTextAreaChanged = true;
-		this.updateTranslation.onKeyPress(tid);
-	};
-	this.updateTranslationOnClick = function (tid) {
-		this.updateTranslation.onClick(tid);
-		this.someTextAreaChanged = false;
 	};
 }
 /**
@@ -324,12 +292,6 @@ function handleEvent(type, parameter) {
 			break;
 		case "selectPrompt":
 			localization.selectPromptOnChange();
-			break;
-		case "translationTextChanged":
-			localization.updateTranslationOnKeyPress(parameter);
-			break;
-		case "updateTranslation":
-			localization.updateTranslationOnClick(parameter);
 			break;
 		default:
 			alert("handleEvents: Type not found: " + type );

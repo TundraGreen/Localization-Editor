@@ -171,16 +171,16 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 		$result = doQuery($stmtT, $selector);
 		$recordT = $stmtT->fetch();	
 
-		print ("<div class=\"languageEntryHdr\">\n");
+		print ("\n\n<div class=\"languageEntryHdr\">\n");
 
-		$lid = $recordL->{lid};
+//		$lid = $recordL->{lid};
 		$tid = $recordT->{tid};
 		print ("<input type=\"submit\"\n");
 		print ("\tid=\"saveBtn-".$tid."\"\n");
 		print ("\tname=\"updateTranslation\"\n");
 		print ("\tvalue=\"Save\"\n");
 		print ("\tdisabled\n");
-		print ("\tonclick=\"handleEvent('updateTranslation',".$tid.")\"\n");
+		print ("\tonclick=\"updateTranslation(".$tid.")\"\n");
 		print ("/>\n");
 		
 		print ("<input type=\"submit\"\n");
@@ -197,7 +197,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 		print ("\tid=\"langstring-".$tid."\"\n");
 		print ("\trows=\"25\"\n");
 		print ("\tcols=\"75\"\n");
-		print ("\tonkeypress=\"handleEvent('translationTextChanged',".$tid.")\"\n");
+		print ("\tonkeypress=\"translationTextChanged(".$tid.")\"\n");
 		print (">".$recordT->{langstring}."</textarea>\n");
 		print ("</div>\n");
 	}
