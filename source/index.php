@@ -22,11 +22,13 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	require_once("ajax/getDatabaseList.php");
 	if (isset($_COOKIE["dbName"])) {
 		$dbName = $_COOKIE["dbName"];
+		
 		// Handle case where cookies points to a non-existence database
-		if( !array_search($dbName, $dbDirList) ) {
+		if( array_search($dbName, $dbDirList) === false) {
+			// change dbName to dbList[0]
 			$dbName = $dbDirList[0];
 			setcookie("dbName", $dbName, time()+60*60*24*30, "/");
-		}
+		} 
 	}
 	else {
 		$dbName = $dbDirList[0];
@@ -150,6 +152,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	print ("<input type=\"submit\"\n");
 	print ("\tvalue=\"Add\"\n");
 	print ("\tname=\"promptAdded\"\n");
+//	print ("\tonclick=\"addLanguage()\"\n");
 	print ("\tonclick=\"handleEvent('addLanguage')\"\n");
 	print ("/>\n");
 	print ("</div>\n");
