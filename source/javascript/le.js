@@ -65,44 +65,6 @@ function ControlElement(id) {
 }
 
 /**
-	@class Handle cookie creation, updating, elimination
-*/
-function CookieHandler() {
-	this.createCookie = function (name, value, days) {
-		var expires;
-		var date;
-		if (days) {
-			date = new Date();
-			date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-			expires = "; expires=" + date.toGMTString();
-		}
-		else {
-			expires = "";
-		}
-		document.cookie = name + "=" + value + expires + "; path=/";
-	};
-	this.readCookie = function (name) {
-		var nameEQ = name + "=";
-		var ca = document.cookie.split(';');
-		var c;
-		var i;
-		for (i=0; i<ca.length; i++) {
-			c = ca[i];
-			while (c.charAt(0) === ' ') {
-				c = c.substring(1, c.length);
-			}
-			if (c.indexOf(nameEQ) === 0) {
-				return c.substring(nameEQ.length, c.length);
-			}
-		}
-		return null;
-	};
-	this.eraseCookie = function (name) {
-		this.createCookie(name,"",-1);
-	};
-}
-
-/**
 	@class Handles selecting a prompt string
 */
 function SelectPrompt(id, ut) {
@@ -121,7 +83,7 @@ function SelectPrompt(id, ut) {
 				return;		
 			}
 		}
-		local.cookieHandler.createCookie("pid", chkdValue);
+		$.cookie('pid', chkdValue, {path:"/"});
 		window.location.reload(true);
 	};
 	// From http://www2.somacon.com/p516.php
@@ -339,7 +301,6 @@ function Localization () {
 	// Check for the various File API support.
 	
 	// Controls
-	this.cookieHandler = new CookieHandler();
 	this.util = new Utilities();
 	
 	this.cancelTranslation = new CancelTranslation("CancelTranslation", this.util);

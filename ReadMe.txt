@@ -18,6 +18,8 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.3 (Build 17) 2012-11-23
+	Cleaning dead code from le.js
 Version 1.3 (Build 16)
 	Convert AddLanguage and AddPrompt to jquery ajax.
 Version 1.3 (Build 15)
