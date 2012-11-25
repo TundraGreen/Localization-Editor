@@ -18,6 +18,8 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.4 (Build 21) 2012-11-24
+	Deleted obsolete file.
 Version 1.4 (Build 20) 2012-11-24
 	Simplified javascript version utilizing jquery libraries
 	jquery, jquery.cookie, jquery.ui

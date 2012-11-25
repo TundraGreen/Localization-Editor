@@ -137,6 +137,8 @@ function updateTranslation (tid) {
 			if (!jsonObj.resultFlag) {
 				console.log("Response: "+jsonObj.error);
 			}
+			$("#saveBtn-"+tid).attr("disabled", "disabled");							
+			$("#cancelBtn-"+tid).attr("disabled", "disabled");
 			removeByValue(someTextAreaChanged, tid);
 		}
 	});
