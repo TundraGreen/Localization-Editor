@@ -37,7 +37,13 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	
 	require "ajax/phpUtils.php";
 	date_default_timezone_set('America/Mexico_City');
-	$pid = $_COOKIE["pid"];
+	if (isset($_COOKIE["pid"])) {
+		$pid = $_COOKIE["pid"];
+	}
+	else {
+		$pid = 1;
+		setcookie("pid", $pid, time()+60*60*24*30, "/");
+	}
 ?>
 <!DOCTYPE html>
 
@@ -89,7 +95,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 <?php
 	
-	$queryL = "SELECT lid, langcode FROM languages";
+	$queryL = "SELECT lid, langcode FROM languages ORDER BY langcode";
 	$queryP = "SELECT pid, promptstring FROM prompts ORDER BY promptstring";
 	$queryT = "SELECT tid,langstring FROM translations where langid=? AND promptid=?";
 	$empty = array();
