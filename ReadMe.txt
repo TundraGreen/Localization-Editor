@@ -18,6 +18,8 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.4 (Build 23) 2012-12-11
+	Minor cosmetic changes to web appearance.
 Version 1.4 (Build 22) 2012-12-06
 	Changed order of languages to alphabetical
 	Set pid, so some prompt is selected the first time.

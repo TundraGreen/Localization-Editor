@@ -68,6 +68,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	Localization Editor
 </h3>
 <div class="dbSelection">
+	Select database: 
 	<select id="pickDB" onchange="selectDB()">
 <?php
 	$dbNum = 0;
@@ -87,8 +88,6 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 </div>
 <div class="padded">
 	<button onclick="newDB()"><big>New database …</big></button>
-</div>
-<div class="padded">
 	<button onclick="writeFiles()"><big>Write language files</big></button>
 </div>
 
@@ -202,7 +201,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 		print ("<div class=\"languageEntry\">\n");
 		print ("<textarea \n");
 		print ("\tid=\"langstring-".$tid."\"\n");
-		print ("\trows=\"25\"\n");
+		print ("\trows=\"10\"\n");
 		print ("\tcols=\"75\"\n");
 		print ("\tonkeypress=\"translationTextChanged(".$tid.")\"\n");
 		print (">".$recordT->{langstring}."</textarea>\n");
