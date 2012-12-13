@@ -18,6 +18,9 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.4 (Build 24) 2012-12-13
+	Fix error in writeLanguageFiles.php
+	Reduce size of text boxes.
 Version 1.4 (Build 23) 2012-12-11
 	Minor cosmetic changes to web appearance.
 Version 1.4 (Build 22) 2012-12-06

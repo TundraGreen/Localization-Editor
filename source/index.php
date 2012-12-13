@@ -201,7 +201,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 		print ("<div class=\"languageEntry\">\n");
 		print ("<textarea \n");
 		print ("\tid=\"langstring-".$tid."\"\n");
-		print ("\trows=\"10\"\n");
+		print ("\trows=\"6\"\n");
 		print ("\tcols=\"75\"\n");
 		print ("\tonkeypress=\"translationTextChanged(".$tid.")\"\n");
 		print (">".$recordT->{langstring}."</textarea>\n");
