@@ -149,7 +149,10 @@ function writeFiles() {
 		url:"ajax/writeLanguageFiles.php",
 		complete: function(data) {
 			var jsonObj = JSON.parse(data.responseText);
-			if (!jsonObj.resultFlag) {
+			if (jsonObj.resultFlag) {
+				alert("Files written");
+			}
+			else {
 				console.log("Error: "+jsonObj.error);
 			}
 		}
