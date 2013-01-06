@@ -18,8 +18,8 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
-Version 1.4 (Build 24) 2012-12-13
-	Add alert to provide user feedback that files have been written.
+Version 1.4 (Build 26) 2013-01-05
+	Fixed prompt box to scroll to current prompt using Flesler's jquery addon scrollto.
 Version 1.4 (Build 25) 2012-12-13
 	Add alert to provide user feedback that files have been written.
 Version 1.4 (Build 24) 2012-12-13
