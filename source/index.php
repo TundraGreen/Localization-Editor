@@ -56,6 +56,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
 	<script src="javascript/jquery.cookie.js" type="text/javascript"></script>
+	<script src="javascript/jquery.scrollTo-1.4.3.1-min.js" type="text/javascript"></script>
 	<script src="javascript/le.js" type="text/javascript"></script>
 </head>
 <body>
@@ -117,13 +118,13 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	print ("<div class=\"promptsHdr\">\n");	
 	print ("Prompt strings:<br />\n");
 	print ("</div>\n");
-	print ("<div class=\"prompts\">\n");	
-	print ("<form id=\"promptList\" >\n");	
+	print ("<div class=\"prompts\" id=\"promptList\" >\n");	
 	while ($record = $stmtP->fetch()) { // Returns false if no record
 
 		print ("\n");	
 
 		print ("<div class=\"promptEntry\">\n");	
+		print ("<label>\n");
 		print ("<input type=\"radio\"\n ");
 		print ("\tname=\"promptSelected\"\n ");
 		print ("\tid=\"prompt_".$record->{pid}."\"\n ");
@@ -131,9 +132,9 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 		if ($record->{pid} == $pid) print ("\tchecked\n");
 		print ("/>\n");	
 		print ("\t".$record->{promptstring}."\n");	
+		print ("</label>\n");
 		print ("</div>\n");
 	}
-	print ("</form>\n");
 	print ("</div>\n");
 
 /* New prompt */	
