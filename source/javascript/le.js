@@ -40,6 +40,7 @@ $(document).ready(function() {
 		$.cookie('pid', $("input[name='promptSelected']:checked").val(), {path:"/"});
 		window.location.reload(true);							
 	});
+	$('#promptList').scrollTo($("input[name='promptSelected']:checked"), 0, {margin:true} );
 });
     
 
