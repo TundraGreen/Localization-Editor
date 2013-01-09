@@ -21,6 +21,18 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 // writeLanguageFiles.php
 // W. Prescott 2012-11-18
 //
+/* Note javascript encodeURI used to encode text
+	php urldecode used to read text
+	http://www.the-art-of-web.com/javascript/escape/
+	When storing:
+	They are encodeURI by javascript before sending to php
+	Then php urldecodes them before sending to sqlite
+	sqlite automatically adds backslashes to single quotes
+	When displaying in editor:
+	php stripslashes strips slashes from them.
+	When writing language files:
+	php leaves the backslashed single quotes backslashed
+*/
 
 header('Content-type: application/json');
 

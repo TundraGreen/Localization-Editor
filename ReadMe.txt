@@ -18,6 +18,16 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.5 (Build 27) 2013-01-05
+	Sorted out and cleaned up encoding of text strings.
+	When storing:
+	They are encodeURI by javascript before sending to php
+	Then php urldecodes them before sending to sqlite
+	sqlite automatically adds backslashes to single quotes
+	When displaying in editor:
+	php stripslashes strips slashes from them.
+	When writing language files:
+	php leaves the backslashed single quotes backslashed
 Version 1.4 (Build 26) 2013-01-05
 	Fixed prompt box to scroll to current prompt using Flesler's jquery addon scrollto.
 Version 1.4 (Build 25) 2012-12-13

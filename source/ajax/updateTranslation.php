@@ -25,6 +25,19 @@ v 1.0 2012-04-09
 #
 */
 
+/* Note javascript encodeURI used to encode text
+	php urldecode used to read text
+	http://www.the-art-of-web.com/javascript/escape/
+	When storing:
+	They are encodeURI by javascript before sending to php
+	Then php urldecodes them before sending to sqlite
+	sqlite automatically adds backslashes to single quotes
+	When displaying in editor:
+	php stripslashes strips slashes from them.
+	When writing language files:
+	php leaves the backslashed single quotes backslashed
+*/
+
 header('Content-type: application/json');
 require_once "phpUtils.php";
 //$prefix = "../";
@@ -41,7 +54,7 @@ else {
 $uid = $_SESSION['uid'];
 
 $tid = $_POST['tid'];
-$text = $_POST['text'];
+$text = urldecode($_POST['text']);
 
 $date = time();
 
