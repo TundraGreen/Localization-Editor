@@ -16,6 +16,18 @@ Redistribution and use in source and binary forms, with or without modification,
 THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
+/* Note javascript escape used to encode text
+	php urldecode used to read text
+	http://www.the-art-of-web.com/javascript/escape/
+	When storing:
+	They are encodeURI by javascript before sending to php
+	Then php urldecodes them before sending to sqlite
+	sqlite automatically adds backslashes to single quotes
+	When displaying in editor:
+	php stripslashes strips slashes from them.
+	When writing language files:
+	php leaves the backslashed single quotes backslashed
+*/
 /* Preliminaries */	
 
 	$prefix = "";
@@ -205,7 +217,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 		print ("\trows=\"6\"\n");
 		print ("\tcols=\"75\"\n");
 		print ("\tonkeypress=\"translationTextChanged(".$tid.")\"\n");
-		print (">".$recordT->{langstring}."</textarea>\n");
+		print (">".stripslashes($recordT->{langstring})."</textarea>\n");
 		print ("</div>\n");
 	}
 	print ("</div>\n");

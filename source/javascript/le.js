@@ -40,7 +40,10 @@ $(document).ready(function() {
 		$.cookie('pid', $("input[name='promptSelected']:checked").val(), {path:"/"});
 		window.location.reload(true);							
 	});
-	$('#promptList').scrollTo($("input[name='promptSelected']:checked"), 0, {margin:true} );
+	console.log($("input[name='promptSelected']:checked"));
+	if ( $("input[name='promptSelected']:checked").length == 1) {
+		$('#promptList').scrollTo($("input[name='promptSelected']:checked"), 0, {margin:true} );
+	}
 });
     
 
@@ -127,12 +130,24 @@ function translationTextChanged (tid) {
 	pushUnique(someTextAreaChanged, tid);							
 }
 
+/* Note javascript encodeURI used to encode text
+	php urldecode used to read text
+	http://www.the-art-of-web.com/javascript/escape/
+	When storing:
+	They are encodeURI by javascript before sending to php
+	Then php urldecodes them before sending to sqlite
+	sqlite automatically adds backslashes to single quotes
+	When displaying in editor:
+	php stripslashes strips slashes from them.
+	When writing language files:
+	php leaves the backslashed single quotes backslashed
+*/
 function updateTranslation (tid) {
 	var langStr = $("#langstring-"+tid).val();
 	$.ajax({
 		type: "POST",
 		url: "ajax/updateTranslation.php",
-		data: {tid: tid, text: langStr},
+		data: {tid: tid, text: encodeURI(langStr)},
 		complete: function(data) {
 			var jsonObj = JSON.parse(data.responseText);
 			if (!jsonObj.resultFlag) {
