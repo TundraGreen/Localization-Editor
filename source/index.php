@@ -141,7 +141,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 		print ("\tname=\"promptSelected\"\n ");
 		print ("\tid=\"prompt_".$record->{'pid'}."\"\n ");
 		print ("\tvalue=\"".$record->{'pid'}."\"\n ");
-		if ($record->{pid} == $pid) print ("\tchecked\n");
+		if ($record->{'pid'} == $pid) print ("\tchecked\n");
 		print ("/>\n");	
 		print ("\t".$record->{'promptstring'}."\n");	
 		print ("</label>\n");
