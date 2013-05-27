@@ -139,11 +139,11 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 		print ("<label>\n");
 		print ("<input type=\"radio\"\n ");
 		print ("\tname=\"promptSelected\"\n ");
-		print ("\tid=\"prompt_".$record->{pid}."\"\n ");
-		print ("\tvalue=\"".$record->{pid}."\"\n ");
+		print ("\tid=\"prompt_".$record->{'pid'}."\"\n ");
+		print ("\tvalue=\"".$record->{'pid'}."\"\n ");
 		if ($record->{pid} == $pid) print ("\tchecked\n");
 		print ("/>\n");	
-		print ("\t".$record->{promptstring}."\n");	
+		print ("\t".$record->{'promptstring'}."\n");	
 		print ("</label>\n");
 		print ("</div>\n");
 	}
@@ -186,14 +186,14 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	
 /* Language translation box */	
 	while ($recordL = $stmtL->fetch()) { // Returns false if no record
-		$selector = array($recordL->{lid}, $pid);
+		$selector = array($recordL->{'lid'}, $pid);
 		$result = doQuery($stmtT, $selector);
 		$recordT = $stmtT->fetch();	
 
 		print ("\n\n<div class=\"languageEntryHdr\">\n");
 
-//		$lid = $recordL->{lid};
-		$tid = $recordT->{tid};
+//		$lid = $recordL->{'lid'};
+		$tid = $recordT->{'tid'};
 		print ("<input type=\"submit\"\n");
 		print ("\tid=\"saveBtn-".$tid."\"\n");
 		print ("\tname=\"updateTranslation\"\n");
@@ -208,7 +208,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 		print ("\tdisabled\n");
 		print ("\tonclick=\"cancelTranslation()\"\n");
 		print ("/>\n");
-		print ($recordL->{langcode}.":\n");
+		print ($recordL->{'langcode'}.":\n");
 		print ("</div>\n");
 		
 		print ("<div class=\"languageEntry\">\n");
@@ -217,7 +217,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 		print ("\trows=\"6\"\n");
 		print ("\tcols=\"75\"\n");
 		print ("\tonkeypress=\"translationTextChanged(".$tid.")\"\n");
-		print (">".stripslashes($recordT->{langstring})."</textarea>\n");
+		print (">".stripslashes($recordT->{'langstring'})."</textarea>\n");
 		print ("</div>\n");
 	}
 	print ("</div>\n");
