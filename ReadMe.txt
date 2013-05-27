@@ -18,6 +18,10 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.5 (Build 28) 2013-05-27
+	Add single quotes around associative array keys.
+#	modified:   ReadMe.txt
+#	modified:   source/index.php
 Version 1.5 (Build 27) 2013-01-05
 	Sorted out and cleaned up encoding of text strings.
 	When storing:
