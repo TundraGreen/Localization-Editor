@@ -57,7 +57,7 @@ $result = doQuery($stmtL, $empty);
 while ($record = $stmtL->fetch()) { // Returns false if no record
 	$query = "INSERT INTO translations (langid, promptid, langstring) VALUES (?,?,?)";
 	$stmt = $db->prepare($query);
-	$args = array($record->{lid}, $pid, $string);
+	$args = array($record->{'lid'}, $pid, $string);
 	doQuery($stmt, $args);
 }
 

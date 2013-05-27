@@ -18,6 +18,8 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.5 (Build 32) 2013-05-27
+	Add single quotes around associative array key.
 Version 1.5 (Build 31) 2013-05-27
 	Comment out unused line that was producing error (uid).
 Version 1.5 (Build 30) 2013-05-27
