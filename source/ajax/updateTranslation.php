@@ -51,7 +51,7 @@ else {
 }
 
 
-$uid = $_SESSION['uid'];
+//	$uid = $_SESSION['uid'];
 
 $tid = $_POST['tid'];
 $text = urldecode($_POST['text']);
