@@ -74,15 +74,15 @@ $result = doQuery($stmtL, $empty);
 
 while ($recordL = $stmtL->fetch()) { // Returns false if no record
 	$result .= "\n".doQuery($stmtP, $empty);
-	$fileName =  "../Databases/".$dbName."/".$recordL->{langcode}.".php";
+	$fileName =  "../Databases/".$dbName."/".$recordL->{'langcode'}.".php";
 	$fHdl = fopen($fileName, 'w');
 	$output = "<?php\n";
 	fwrite($fHdl, $output);
 	while ($recordP = $stmtP->fetch()) { // Returns false if no record
-		$args = array($recordL->{lid}, $recordP->{pid});
+		$args = array($recordL->{'lid'}, $recordP->{'pid'});
 		doQuery($stmtT, $args);
 		$recordT = $stmtT->fetch();
-		$output = "define('".$recordP->{promptstring}."', '".$recordT->{langstring}."');\n";
+		$output = "define('".$recordP->{'promptstring'}."', '".$recordT->{'langstring'}."');\n";
 		fwrite($fHdl, $output);
 	}
 	$output = "?>\n";

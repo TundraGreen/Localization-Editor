@@ -56,10 +56,10 @@ $stmtP->setFetchMode(PDO::FETCH_OBJ);
 $result = doQuery($stmtP, $empty);
 
 while ($record = $stmtP->fetch()) { // Returns false if no record
-	$promptString = $record->{promptstring};
+	$promptString = $record->{'promptstring'};
 	$query = "INSERT INTO translations (langid, promptid, langstring) VALUES (?,?,?)";
 	$stmt = $db->prepare($query);
-	$args = array($lid, $record->{pid}, $promptString);
+	$args = array($lid, $record->{'pid'}, $promptString);
 	doQuery($stmt, $args);
 }
 
