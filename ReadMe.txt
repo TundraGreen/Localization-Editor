@@ -18,6 +18,12 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.6 (Build 32) 2013-06-18
+	Added capability of building database from language files.
+	new file:   source/ajax/readLanguageFiles.php
+	modified:   ReadMe.txt
+	modified:   source/index.php
+	modified:   source/javascript/le.js
 Version 1.5 (Build 32) 2013-05-27
 	Add single quotes around associative array key.
 Version 1.5 (Build 31) 2013-05-27

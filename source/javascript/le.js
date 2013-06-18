@@ -40,7 +40,6 @@ $(document).ready(function() {
 		$.cookie('pid', $("input[name='promptSelected']:checked").val(), {path:"/"});
 		window.location.reload(true);							
 	});
-	console.log($("input[name='promptSelected']:checked"));
 	if ( $("input[name='promptSelected']:checked").length == 1) {
 		$('#promptList').scrollTo($("input[name='promptSelected']:checked"), 0, {margin:true} );
 	}
@@ -111,6 +110,22 @@ function pushUnique(arr, val) {
 	arr.push(val);
 }
 
+function readLanguageFiles() {
+	if (!confirm('Are you sure?\n')) return;
+	$.ajax({
+		url:"ajax/readLanguageFiles.php",
+		complete: function(data) {
+			var jsonObj = JSON.parse(data.responseText);
+			if (jsonObj.resultFlag) {
+				window.location.reload(true);							
+			}
+			else {
+				console.log("Error: "+jsonObj.error);
+			}
+		}
+	});	
+}
+
 function removeByValue(arr, val) {
     for(var i=0; i<arr.length; i++) {
         if(arr[i] == val) {
@@ -160,7 +175,7 @@ function updateTranslation (tid) {
 	});
 }
 
-function writeFiles() {
+function writeLanguageFiles() {
 	$.ajax({
 		url:"ajax/writeLanguageFiles.php",
 		complete: function(data) {
