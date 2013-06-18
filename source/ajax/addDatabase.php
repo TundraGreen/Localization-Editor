@@ -34,7 +34,7 @@ foreach($dbDirList as $db ) {
 	}
 }
 mkdir("../Databases/".$dbName);
-$dbPath = "../Databases/".$dbName."/localization.sqlite";
+$dbPath = "../Databases/".$dbName."/".$dbName.".sqlite";
 $fHdl = fopen($dbPath,'a');
 fclose($fHdl);
 

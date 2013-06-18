@@ -59,7 +59,7 @@ $text = urldecode($_POST['text']);
 $date = time();
 
 // Connect to the database with PDO
-$dbPath = "../Databases/".$dbName."/localization.sqlite";
+$dbPath = "../Databases/".$dbName."/".$dbName.".sqlite";
 
 $db = initDatabase ($dbPath);
 
