@@ -114,7 +114,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	$empty = array();
 
 	// Connect to the database with PDO
-	$dbPath = "Databases/".$dbDirList[$dbNum]."/localization.sqlite";
+	$dbPath = "Databases/".$dbDirList[$dbNum]."/".$dbDirList[$dbNum].".sqlite";
 	if (!file_exists($dbPath)) {
 		touch($dbPath, 0777);
 		chmod($dbPath, 0777);

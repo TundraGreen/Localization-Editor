@@ -18,6 +18,18 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.6.1 (Build 32) 2013-06-18
+	Converted to use double quotes instead of single quotes in language files
+	----------------------
+	modified:   ReadMe.txt
+	modified:   source/ajax/addDatabase.php
+	modified:   source/ajax/addLanguage.php
+	modified:   source/ajax/addPrompt.php
+	modified:   source/ajax/readLanguageFiles.php
+	modified:   source/ajax/updateTranslation.php
+	modified:   source/ajax/writeLanguageFiles.php
+	modified:   source/index.php
+	modified:   source/javascript/le.js
 Version 1.6 (Build 32) 2013-06-18
 	Added capability of building database from language files.
 	new file:   source/ajax/readLanguageFiles.php
@@ -35,8 +47,8 @@ Version 1.5 (Build 29) 2013-05-27
 	Added jquery scrollto to git.
 Version 1.5 (Build 28) 2013-05-27
 	Add single quotes around associative array keys.
-#	modified:   ReadMe.txt
-#	modified:   source/index.php
+	modified:   ReadMe.txt
+	modified:   source/index.php
 Version 1.5 (Build 27) 2013-01-05
 	Sorted out and cleaned up encoding of text strings.
 	When storing:

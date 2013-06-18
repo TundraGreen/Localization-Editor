@@ -111,7 +111,8 @@ function pushUnique(arr, val) {
 }
 
 function readLanguageFiles() {
-	if (!confirm('Are you sure?\n')) return;
+	if (!confirm('Are you sure?\n' +
+		'This will add prompts from language files to the database.')) return;
 	$.ajax({
 		url:"ajax/readLanguageFiles.php",
 		complete: function(data) {
@@ -176,6 +177,7 @@ function updateTranslation (tid) {
 }
 
 function writeLanguageFiles() {
+	if (!confirm('Are you sure?\nThis will overwrite any existing language files.')) return;
 	$.ajax({
 		url:"ajax/writeLanguageFiles.php",
 		complete: function(data) {

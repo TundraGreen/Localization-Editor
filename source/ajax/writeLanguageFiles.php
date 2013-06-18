@@ -51,7 +51,7 @@ else {
 date_default_timezone_set('America/Mexico_City');
 
 // Connect to the database with PDO
-$dbPath = "../Databases/".$dbName."/localization.sqlite";
+$dbPath = "../Databases/".$dbName."/".$dbName.".sqlite";
 
 $db = initDatabase ($dbPath);
 
@@ -82,7 +82,7 @@ while ($recordL = $stmtL->fetch()) { // Returns false if no record
 		$args = array($recordL->{'lid'}, $recordP->{'pid'});
 		doQuery($stmtT, $args);
 		$recordT = $stmtT->fetch();
-		$output = "define('".$recordP->{'promptstring'}."', '".$recordT->{'langstring'}."');\n";
+		$output = 'define("'.$recordP->{'promptstring'}.'", "'.$recordT->{'langstring'}.'");'."\n";
 		fwrite($fHdl, $output);
 	}
 	$output = "?>\n";

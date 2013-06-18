@@ -43,19 +43,18 @@ date_default_timezone_set('America/Mexico_City');
 
 // Connect to the database with PDO
 $dbDir = "../Databases/".$dbName;
-$dbPath = $dbDir."/localization.sqlite";
+$dbPath = $dbDir."/".$dbName.".sqlite";
 $empty = array();
 $db = initDatabase ($dbPath);
 
 $fileListTmp = scandir($dbDir);
 $return = '';
 foreach ($fileListTmp as $elem) {
-	if ($elem !== 'localization.sqlite' &&
+	if ($elem !== $dbName.".sqlite" &&
 		$elem !== '.' &&
 		$elem !== '..'
 	) $fileList[] = $elem;
 }
-
 foreach ($fileList as $fileName) {
 
 	// Insert language into database
@@ -85,6 +84,7 @@ foreach ($fileList as $fileName) {
 	// Split on define(
 	$definitions = explode("define(", $string);
 /*
+	// This obsolete code uses split on commas to parse the prompts
 	foreach ($definitions as $line) {
 	
 		// Split on commas
@@ -100,13 +100,14 @@ foreach ($fileList as $fileName) {
 		$translations[$prompt][$langName] = $langString;
 	}
 */
+	// Use occurrence of double quotes to parse the prompts
 	foreach ($definitions as $entry) {
 		
-		// Find single quotes
-		$p1 = strpos($entry, 39, 0);
-		$p2 = strpos($entry, 39, $p1+1);
-		$p3 = strpos($entry, 39, $p2+1);
-		$p4 = strpos($entry, 39, $p3+1);
+		// Find double quotes
+		$p1 = strpos($entry, 34, 0);
+		$p2 = strpos($entry, 34, $p1+1);
+		$p3 = strpos($entry, 34, $p2+1);
+		$p4 = strpos($entry, 34, $p3+1);
 		
 		// Extract prompt and translation
 		$prompt = substr($entry, $p1+1, $p2-$p1-1);
@@ -116,6 +117,7 @@ foreach ($fileList as $fileName) {
 		$translations[$prompt][$langName] = $langString;
 	}
 }	
+
 foreach ($translations as $prompt => $langTranPairs) {
 
 	// Insert prompt into database
@@ -147,9 +149,9 @@ foreach ($translations as $prompt => $langTranPairs) {
 		$stmt = $db->prepare($query);
 		$result = doQuery($stmt, array($lid, $pid, $translation));
 	}
+}
 /*
 */
-}
 
 jsonReturn($return, true, 'noerror');
 
