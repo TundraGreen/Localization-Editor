@@ -101,7 +101,8 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 </div>
 <div class="padded">
 	<button onclick="newDB()"><big>New database …</big></button>
-	<button onclick="writeFiles()"><big>Write language files</big></button>
+	<button onclick="writeLanguageFiles()"><big>Write language files</big></button>
+	<button onclick="readLanguageFiles()"><big>Read language files</big></button>
 </div>
 
 
@@ -114,8 +115,40 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 	// Connect to the database with PDO
 	$dbPath = "Databases/".$dbDirList[$dbNum]."/localization.sqlite";
-	$db = initDatabase ($dbPath);
-	
+	if (!file_exists($dbPath)) {
+		touch($dbPath, 0777);
+		chmod($dbPath, 0777);
+		$db = initDatabase ($dbPath);
+		$query = "CREATE TABLE languages ".
+			"(".
+			"lid INTEGER PRIMARY KEY,".
+			"langcode TEXT NOT NULL DEFAULT ''".
+			");";
+
+		$stmt = $db->prepare($query);
+		$result = doQuery($stmt, $empty);
+		
+		$query = "CREATE TABLE prompts ".
+			"(".
+			"pid INTEGER PRIMARY KEY,".
+			"promptstring TEXT NOT NULL DEFAULT ''".
+			");";
+		$stmt = $db->prepare($query);
+		$result = doQuery($stmt, $empty);
+
+		$query = "CREATE TABLE translations".
+			"(".
+			"tid INTEGER PRIMARY KEY,".
+			"langid INTEGER NOT NULL DEFAULT 0,".
+			"promptid INTEGER NOT NULL DEFAULT 0,".
+			"langstring TEXT NOT NULL DEFAULT ''".
+			");";
+		$stmt = $db->prepare($query);
+		$result = doQuery($stmt, $empty);
+	}
+	else {
+		$db = initDatabase ($dbPath);
+	}
 	$stmtP = $db->prepare($queryP);
 	$stmtP->setFetchMode(PDO::FETCH_OBJ);
 	
