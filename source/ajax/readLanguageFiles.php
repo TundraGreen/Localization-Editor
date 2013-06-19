@@ -103,11 +103,11 @@ foreach ($fileList as $fileName) {
 	// Use occurrence of double quotes to parse the prompts
 	foreach ($definitions as $entry) {
 		
-		// Find double quotes
-		$p1 = strpos($entry, 34, 0);
-		$p2 = strpos($entry, 34, $p1+1);
-		$p3 = strpos($entry, 34, $p2+1);
-		$p4 = strpos($entry, 34, $p3+1);
+		// Find single quotes
+		$p1 = findNextQuote($entry, 0);
+		$p2 = findNextQuote($entry, $p1+1);
+		$p3 = findNextQuote($entry, $p2+1);
+		$p4 = findNextQuote($entry, $p3+1);
 		
 		// Extract prompt and translation
 		$prompt = substr($entry, $p1+1, $p2-$p1-1);
@@ -147,7 +147,7 @@ foreach ($translations as $prompt => $langTranPairs) {
 		// Insert translation
 		$query = 'INSERT INTO translations (langid, promptid, langstring) VALUES (?, ?, ?)';
 		$stmt = $db->prepare($query);
-		$result = doQuery($stmt, array($lid, $pid, $translation));
+		$result = doQuery($stmt, array($lid, $pid, stripslashes($translation)));
 	}
 }
 /*
@@ -156,5 +156,18 @@ foreach ($translations as $prompt => $langTranPairs) {
 jsonReturn($return, true, 'noerror');
 
 $db = null;
+
+function findNextQuote($string, $start) {
+	global $return;
+	
+	// Find next single quote chr(39)
+	// chr(39) = '; chr(47) = \
+	$pt = strpos($string, 39, $start);
+	if ($pt > 0 && 
+		($string[$pt-1] == "'" || $string[$pt-1] == "\\")) {
+		$pt = findNextQuote($string, $pt+1);
+	}
+	return $pt;
+}
 ?>
 

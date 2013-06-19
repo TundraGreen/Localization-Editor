@@ -18,6 +18,16 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.6.1 (Build 36) 2013-06-19
+	Fixed handling of quote characters in translations
+	Single quotes in strings are doubled in the database
+	Double quotes are unchanged in the datase
+	Single and double quotes are \ escaped in the language files
+	Both appear normally in the editor
+	----------------------
+	modified:   ReadMe.txt
+	modified:   source/ajax/readLanguageFiles.php
+	modified:   source/ajax/writeLanguageFiles.php
 Version 1.6.1 (Build 35) 2013-06-19
 	Minor cleanup, no significant changes
 	modified:   ReadMe.txt
