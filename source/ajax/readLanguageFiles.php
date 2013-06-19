@@ -51,9 +51,7 @@ $fileListTmp = scandir($dbDir);
 $return = '';
 foreach ($fileListTmp as $elem) {
 	if ($elem !== $dbName.".sqlite" &&
-		$elem !== '.' &&
-		$elem !== '..'
-	) $fileList[] = $elem;
+		$elem[0] !== '.') $fileList[] = $elem;
 }
 foreach ($fileList as $fileName) {
 
