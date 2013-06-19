@@ -250,7 +250,9 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 		print ("\trows=\"6\"\n");
 		print ("\tcols=\"75\"\n");
 		print ("\tonkeypress=\"translationTextChanged(".$tid.")\"\n");
-		print (">".stripslashes($recordT->{'langstring'})."</textarea>\n");
+		print (">");
+		print (stripslashes($recordT->{'langstring'}));
+		print ("</textarea>\n");
 		print ("</div>\n");
 	}
 	print ("</div>\n");

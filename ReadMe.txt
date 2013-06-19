@@ -18,7 +18,13 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
-Version 1.6.1 (Build 32) 2013-06-18
+Version 1.6.1 (Build 35) 2013-06-19
+	Minor cleanup, no significant changes
+	modified:   ReadMe.txt
+	modified:   source/ajax/readLanguageFiles.php
+	modified:   source/ajax/writeLanguageFiles.php
+	modified:   source/index.php
+Version 1.6.1 (Build 34) 2013-06-18
 	Converted to use double quotes instead of single quotes in language files
 	----------------------
 	modified:   ReadMe.txt
@@ -30,7 +36,7 @@ Version 1.6.1 (Build 32) 2013-06-18
 	modified:   source/ajax/writeLanguageFiles.php
 	modified:   source/index.php
 	modified:   source/javascript/le.js
-Version 1.6 (Build 32) 2013-06-18
+Version 1.6 (Build 33) 2013-06-18
 	Added capability of building database from language files.
 	new file:   source/ajax/readLanguageFiles.php
 	modified:   ReadMe.txt

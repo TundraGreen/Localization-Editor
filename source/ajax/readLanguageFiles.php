@@ -111,7 +111,7 @@ foreach ($fileList as $fileName) {
 		
 		// Extract prompt and translation
 		$prompt = substr($entry, $p1+1, $p2-$p1-1);
-		$langString = substr($entry, $p3+1, $p4-$p3-1);;
+		$langString = substr($entry, $p3+1, $p4-$p3-1);
 		
 		// Store in doubly indexed array
 		$translations[$prompt][$langName] = $langString;
