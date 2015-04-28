@@ -1,28 +1,28 @@
 <project name="LocalizationEditor" default="deploy.local" basedir=".">
 	<description>
-		Localization Editor 
+		Localization Editor
 	</description>
 	<property name="version" value="0.1:2012-03-29"/>
 	<property name="product"	location="product"/>
 	<property name="source"		location="source"/>
 	<property name="project"	location="LocalizationEditor"/>
 	<property name="web.local"	location="/Library/WebServer/Documents"/>
-	
+
 	<target name="init"
 		description="Initialize">
 		<echo message="${project} - init"/>
 		<tstamp/>
 	</target>
-															   
+
 	<target name="deploy.local" depends="init"
 		description="Copy to web documents directory">
 		<echo message="${project} - copy web site to local web documents directory" />
 		<mkdir dir="${product}" />
-		<copy  todir="${product}">
+		<copy verbose="yes" todir="${product}">
 			<fileset dir="${source}" />
 		</copy>
 		<mkdir dir="${product}" />
-		<copy  todir="${web.local}/LocalizationEditor">
+		<copy verbose="yes" todir="${web.local}/LocalizationEditor">
 			<fileset dir="${product}"/>
 		</copy>
 	</target>
@@ -40,6 +40,6 @@
 		<echo message="${project} - clean"/>
 		<delete dir="${product}"/>
 	</target>
-	
+
 
 </project>

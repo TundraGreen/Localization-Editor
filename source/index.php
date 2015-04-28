@@ -28,25 +28,25 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	When writing language files:
 	php leaves the backslashed single quotes backslashed
 */
-/* Preliminaries */	
+/* Preliminaries */
 
 	$prefix = "";
 	require_once("ajax/getDatabaseList.php");
 	if (isset($_COOKIE["dbName"])) {
 		$dbName = $_COOKIE["dbName"];
-		
+
 		// Handle case where cookies points to a non-existence database
 		if( array_search($dbName, $dbDirList) === false) {
 			// change dbName to dbList[0]
 			$dbName = $dbDirList[0];
 			setcookie("dbName", $dbName, time()+60*60*24*30, "/");
-		} 
+		}
 	}
 	else {
 		$dbName = $dbDirList[0];
 		setcookie("dbName", $dbName, time()+60*60*24*30, "/");
 	}
-	
+
 	require "ajax/phpUtils.php";
 	date_default_timezone_set('America/Mexico_City');
 	if (isset($_COOKIE["pid"])) {
@@ -62,7 +62,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Localization Editor</title> 
+	<title>Localization Editor</title>
 	<link href="estilos/master.css" rel="stylesheet" type="text/css" />
 	<link href="estilos/le.css" rel="stylesheet" type="text/css" />
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -81,7 +81,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	Localization Editor
 </h3>
 <div class="dbSelection">
-	Select database: 
+	Select database:
 	<select id="pickDB" onchange="selectDB()">
 <?php
 	$dbNum = 0;
@@ -103,11 +103,13 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	<button onclick="newDB()"><big>New database …</big></button>
 	<button onclick="writeLanguageFiles()"><big>Write language files</big></button>
 	<button onclick="readLanguageFiles()"><big>Read language files</big></button>
+	<button onclick="writeYmlFiles()"><big>Write yml files</big></button>
+	<button onclick="readYmlFiles()"><big>Read yml files</big></button>
 </div>
 
 
 <?php
-	
+
 	$queryL = "SELECT lid, langcode FROM languages ORDER BY langcode";
 	$queryP = "SELECT pid, promptstring FROM prompts ORDER BY promptstring";
 	$queryT = "SELECT tid,langstring FROM translations where langid=? AND promptid=?";
@@ -127,7 +129,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 		$stmt = $db->prepare($query);
 		$result = doQuery($stmt, $empty);
-		
+
 		$query = "CREATE TABLE prompts ".
 			"(".
 			"pid INTEGER PRIMARY KEY,".
@@ -151,40 +153,40 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	}
 	$stmtP = $db->prepare($queryP);
 	$stmtP->setFetchMode(PDO::FETCH_OBJ);
-	
+
 	$result = doQuery($stmtP, $empty);
-	
+
 	$stmtT = $db->prepare($queryT);
 	$stmtT->setFetchMode(PDO::FETCH_OBJ);
 
 	print ("<div class=\"promptBox floatLeft\">\n");
-	
-/* Prompt selection box */	
-	print ("<div class=\"promptsHdr\">\n");	
+
+/* Prompt selection box */
+	print ("<div class=\"promptsHdr\">\n");
 	print ("Prompt strings:<br />\n");
 	print ("</div>\n");
-	print ("<div class=\"prompts\" id=\"promptList\" >\n");	
+	print ("<div class=\"prompts\" id=\"promptList\" >\n");
 	while ($record = $stmtP->fetch()) { // Returns false if no record
 
-		print ("\n");	
+		print ("\n");
 
-		print ("<div class=\"promptEntry\">\n");	
+		print ("<div class=\"promptEntry\">\n");
 		print ("<label>\n");
 		print ("<input type=\"radio\"\n ");
 		print ("\tname=\"promptSelected\"\n ");
 		print ("\tid=\"prompt_".$record->{'pid'}."\"\n ");
 		print ("\tvalue=\"".$record->{'pid'}."\"\n ");
 		if ($record->{'pid'} == $pid) print ("\tchecked\n");
-		print ("/>\n");	
-		print ("\t".$record->{'promptstring'}."\n");	
+		print ("/>\n");
+		print ("\t".$record->{'promptstring'}."\n");
 		print ("</label>\n");
 		print ("</div>\n");
 	}
 	print ("</div>\n");
 
-/* New prompt */	
-	print ("<div class=\"addPrompt\">\n");	
-	print ("Add prompt:<br />\n");	
+/* New prompt */
+	print ("<div class=\"addPrompt\">\n");
+	print ("Add prompt:<br />\n");
 	print ("<input type=\"text\"\n");
 	print ("\tid=\"addPrompt\"\n");
 	print ("/><br />\n");
@@ -195,9 +197,9 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	print ("/>\n");
 	print ("</div>\n");
 
-/* New language */	
-	print ("<div class=\"addPrompt\">\n");	
-	print ("Add language:<br />\n");	
+/* New language */
+	print ("<div class=\"addPrompt\">\n");
+	print ("Add language:<br />\n");
 	print ("<input type=\"text\"\n");
 	print ("\tid=\"addLanguage\"\n");
 	print ("/><br />\n");
@@ -211,17 +213,17 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 	$stmtL = $db->prepare($queryL);
 	$stmtL->setFetchMode(PDO::FETCH_OBJ);
-	
+
 	$result = doQuery($stmtL, $empty);
 
 
 	print ("<div class=\"languageBox floatLeft\">\n");
-	
-/* Language translation box */	
+
+/* Language translation box */
 	while ($recordL = $stmtL->fetch()) { // Returns false if no record
 		$selector = array($recordL->{'lid'}, $pid);
 		$result = doQuery($stmtT, $selector);
-		$recordT = $stmtT->fetch();	
+		$recordT = $stmtT->fetch();
 
 		print ("\n\n<div class=\"languageEntryHdr\">\n");
 
@@ -234,7 +236,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 		print ("\tdisabled\n");
 		print ("\tonclick=\"updateTranslation(".$tid.")\"\n");
 		print ("/>\n");
-		
+
 		print ("<input type=\"submit\"\n");
 		print ("\tid=\"cancelBtn-".$tid."\"\n");
 		print ("\tvalue=\"Cancel\"\n");
@@ -243,7 +245,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 		print ("/>\n");
 		print ($recordL->{'langcode'}.":\n");
 		print ("</div>\n");
-		
+
 		print ("<div class=\"languageEntry\">\n");
 		print ("<textarea \n");
 		print ("\tid=\"langstring-".$tid."\"\n");
@@ -257,7 +259,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	}
 	print ("</div>\n");
 	print ("<div class=\"floatClear\"></div>\n");
-?> 
+?>
 
 </div><!--End of content-->
 </div><!--End of page-->

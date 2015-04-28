@@ -34,17 +34,17 @@ $(document).ready(function() {
 			}
 			else {
 				$('[name="promptSelected" ][value="' + $.cookie('pid') + '"]').attr('checked', true)
-				return;         
+				return;
 			}
 		}
 		$.cookie('pid', $("input[name='promptSelected']:checked").val(), {path:"/"});
-		window.location.reload(true);							
+		window.location.reload(true);
 	});
 	if ( $("input[name='promptSelected']:checked").length == 1) {
 		$('#promptList').scrollTo($("input[name='promptSelected']:checked"), 0, {margin:true} );
 	}
 });
-    
+
 
 function addLanguage () {
 	var langCode = $("#addLanguage").val();
@@ -57,7 +57,7 @@ function addLanguage () {
 			if (!jsonObj.resultFlag) {
 				console.log("Response: "+jsonObj.error);
 			}
-			window.location.reload(true);							
+			window.location.reload(true);
 		}
 	});
 }
@@ -73,7 +73,7 @@ function addPrompt () {
 			if (!jsonObj.resultFlag) {
 				console.log("Response: "+jsonObj.error);
 			}
-			window.location.reload(true);							
+			window.location.reload(true);
 		}
 	});
 }
@@ -96,7 +96,7 @@ function newDB () {
 			if (!jsonObj.resultFlag) {
 				console.log("Response: "+jsonObj.error);
 			}
-			window.location.reload(true);							
+			window.location.reload(true);
 		}
 	});
 }
@@ -118,13 +118,30 @@ function readLanguageFiles() {
 		complete: function(data) {
 			var jsonObj = JSON.parse(data.responseText);
 			if (jsonObj.resultFlag) {
-				window.location.reload(true);							
+				window.location.reload(true);
 			}
 			else {
 				console.log("Error: "+jsonObj.error);
 			}
 		}
-	});	
+	});
+}
+
+function readYmlFiles() {
+	if (!confirm('Are you sure?\n' +
+		'This will add prompts from yml files to the database.')) return;
+	$.ajax({
+		url:"ajax/readYmlFiles.php",
+		complete: function(data) {
+			var jsonObj = JSON.parse(data.responseText);
+			if (jsonObj.resultFlag) {
+				window.location.reload(true);
+			}
+			else {
+				console.log("Error: "+jsonObj.error);
+			}
+		}
+	});
 }
 
 function removeByValue(arr, val) {
@@ -141,9 +158,9 @@ function selectDB () {
 }
 
 function translationTextChanged (tid) {
-	$("#saveBtn-"+tid).removeAttr('disabled');							
+	$("#saveBtn-"+tid).removeAttr('disabled');
 	$("#cancelBtn-"+tid).removeAttr('disabled');
-	pushUnique(someTextAreaChanged, tid);							
+	pushUnique(someTextAreaChanged, tid);
 }
 
 /* Note javascript encodeURI used to encode text
@@ -169,7 +186,7 @@ function updateTranslation (tid) {
 			if (!jsonObj.resultFlag) {
 				console.log("Response: "+jsonObj.error);
 			}
-			$("#saveBtn-"+tid).attr("disabled", "disabled");							
+			$("#saveBtn-"+tid).attr("disabled", "disabled");
 			$("#cancelBtn-"+tid).attr("disabled", "disabled");
 			removeByValue(someTextAreaChanged, tid);
 		}
@@ -189,7 +206,23 @@ function writeLanguageFiles() {
 				console.log("Error: "+jsonObj.error);
 			}
 		}
-	});	
+	});
+}
+
+function writeYmlFiles() {
+	if (!confirm('Are you sure?\nThis will overwrite any existing yml files.')) return;
+	$.ajax({
+		url:"ajax/writeYmlFiles.php",
+		complete: function(data) {
+			var jsonObj = JSON.parse(data.responseText);
+			if (jsonObj.resultFlag) {
+				alert("Files written");
+			}
+			else {
+				console.log("Error: "+jsonObj.error);
+			}
+		}
+	});
 }
 
 

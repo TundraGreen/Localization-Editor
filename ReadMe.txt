@@ -18,6 +18,8 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.7 (Build 38) 2015-04-28
+  Add support for reading and writing Beacon v.2 yaml files.
 Version 1.6.1 (Build 37) 2013-06-19
 	Change to exclude all dot files when reading language files.
 	modified:   ReadMe.txt
@@ -151,11 +153,11 @@ v. 1.0
 
 Overview
 --------
-A system for maintaining a localization database. An application inserts "prompts" or "keys" where ever a language specific string is required. On execution, the application pulls the actual string in the appropriate language from the database. 
+A system for maintaining a localization database. An application inserts "prompts" or "keys" where ever a language specific string is required. On execution, the application pulls the actual string in the appropriate language from the database.
 
-Localization Editor is a web app that makes it easy to create and maintain the database. It was particularly designed to facilitate multi-language web pages, but could be used anywhere support for various languages is desired. The maintenance of the text is completely separated from 
+Localization Editor is a web app that makes it easy to create and maintain the database. It was particularly designed to facilitate multi-language web pages, but could be used anywhere support for various languages is desired. The maintenance of the text is completely separated from
 maintenance of the source code and can be done by translators with no knowledge of the source code.
- 
+
 The Editor uses php, javascript and ajax to manage the localization information which is stored in an sqlite database. The localized text strings are stored in a database. When an application needs a text string it is pulled from the data base using the prompt and language code as keys.
 
 For example a web page would include the string:
