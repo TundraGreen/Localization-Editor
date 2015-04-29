@@ -15,7 +15,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 */
 body {
-	background-color:#ffffff; 
+	background-color:#ffffff;
 }
 #page {
 	position:relative;
@@ -26,7 +26,7 @@ body {
 /*
 	width:1000px;
 	height:600px;
-	background-color:#ffff00; 
+	background-color:#ffff00;
 */
 }
 #content {
@@ -38,7 +38,7 @@ body {
 
 h1 {
 	font-family:Verdana;
-	font-size:2.0em;
+	font-size:1.5em;
 	font-style:normal;
 	font-weight:normal;
 	padding:20px 0px 0px 0px;
@@ -58,12 +58,32 @@ h1 {
 	padding:10px;
 }
 
+.admin {
+	padding:10px;
+	background-color: #BBBBBB;
+}
+
+.adminPromptLanguage {
+	padding:3px;
+	background-color: #BBBBBB;
+}
+
+.adminButton {
+	background-color: #DDDDDD;
+}
+
+.adminTextBox {
+	background-color: #DDDDDD;
+	width:400px;
+}
+
 .languageBox {
 	height:800px;
 	overflow-y:scroll;
 	padding:5px;
 	margin:5px;
 	border:2px solid black;
+/* 	background-color:yellow; */
 }
 
 .languageEntryHdr {
@@ -91,6 +111,7 @@ h1 {
 	padding:5px;
 	margin:5px;
 	border:2px solid black;
+/* 	background-color:blue; */
 }
 
 .promptsHdr {

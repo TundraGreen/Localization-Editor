@@ -57,12 +57,11 @@ date_default_timezone_set('America/Mexico_City');
 
 // Connect to the database with PDO
 $dbPath = "../Databases/".$dbName."/".$dbName.".sqlite";
-print $dbPath;
+// print $dbPath;
 
 $db = initDatabase ($dbPath);
 
 $empty = [];
-$translations = [];
 
 $queryL = "SELECT lid, langcode FROM languages";
 $queryP = "SELECT pid, promptstring FROM prompts ORDER BY promptstring";
@@ -83,13 +82,14 @@ while ($recordL = $stmtL->fetch()) { // Returns false if no record
 	$result .= "\n".doQuery($stmtP, $empty);
 	$fileName =  "../Databases/".$dbName."/".$recordL->{'langcode'}.".yml";
 	$fHdl = fopen($fileName, 'w');
+  $translations = [];
 	while ($recordP = $stmtP->fetch()) { // Returns false if no record
 		$args = array($recordL->{'lid'}, $recordP->{'pid'});
 		doQuery($stmtT, $args);
 		$recordT = $stmtT->fetch();
 		$translations[$recordP->{'promptstring'}] = $recordT->{'langstring'};
-		$yaml = processTranslations($recordL->{'langcode'}, $translations);
 	}
+	$yaml = processTranslations($recordL->{'langcode'}, $translations);
   fwrite($fHdl, $yaml);
 	$output = "\n";
 	fwrite($fHdl, $output);
@@ -109,40 +109,43 @@ function processTranslations($language, $translations) {
     $promptAtLevel[$i] = '';
   }
 
+  $debug = 0;
   foreach ($translations as $key=>$value) {
+//     print ("language: $language  -  debug: $debug\n");
+//     print("prompt: $key\n");
     $promptArray = explode('.', $key);
     $currentIndentLevel = 0;
     $currentIndentString = '  ';
 
+    $differ = false;
+    // This was added to handle cases like:
+    //         active_record.errors.models.hospital.attributes.data_center:
+    //         active_record.errors.models.incidents.attributes.data_center:
 
     for ($i=0; $i< count($promptArray); $i++) {
-      if ($promptAtLevel[$i] != $promptArray[$i]) {
-//         print($currentIndentString);
-//         print($promptArray[$i]);
+//       print("i: $i\n");
+//       print("$i: $promptAtLevel[$i] : $promptArray[$i]\n");
+      if (($promptAtLevel[$i] != $promptArray[$i]) || $differ) {
+        $differ = true;
         $yaml .= $currentIndentString;
         $yaml .= $promptArray[$i];
         $promptAtLevel[$i] = $promptArray[$i];
         if ($i != count($promptArray) - 1) {
-//           print (":\n");
           $yaml .= ":\n";
         }
         else {
-//           print (": |\n");
-//           print($currentIndentString);
-//           print("  $value\n");
           $yaml .= ": |\n";
           $yaml .= $currentIndentString;
           $patchedValue = str_replace("\n", "\n  ".$currentIndentString, $value);
-          print '==================\n';
-          print $value;
-          print '------------------\n';
-          print $patchedValue;
           $yaml .= "  $patchedValue\n";
         }
       }
       $currentIndentLevel += 1;
       $currentIndentString = '  ' . $currentIndentString;
     }
+//     print $yaml;
+//     if ($debug > 2) break;
+//     $debug++;
   }
   return $yaml;
 }

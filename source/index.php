@@ -77,9 +77,9 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 ?>
 <div id="page">
 <div id="content">
-<h3>
+<h1>
 	Localization Editor
-</h3>
+</h1>
 <div class="dbSelection">
 	Select database:
 	<select id="pickDB" onchange="selectDB()">
@@ -98,13 +98,6 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	}
 ?>
 	</select>
-</div>
-<div class="padded">
-	<button onclick="newDB()"><big>New database …</big></button>
-	<button onclick="writeLanguageFiles()"><big>Write language files</big></button>
-	<button onclick="readLanguageFiles()"><big>Read language files</big></button>
-	<button onclick="writeYmlFiles()"><big>Write yml files</big></button>
-	<button onclick="readYmlFiles()"><big>Read yml files</big></button>
 </div>
 
 
@@ -185,12 +178,12 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	print ("</div>\n");
 
 /* New prompt */
-	print ("<div class=\"addPrompt\">\n");
+	print ("<div class=\"addPrompt adminPromptLanguage\">\n");
 	print ("Add prompt:<br />\n");
-	print ("<input type=\"text\"\n");
+	print ("<input class=\"adminTextBox\" type=\"text\"\n");
 	print ("\tid=\"addPrompt\"\n");
 	print ("/><br />\n");
-	print ("<input type=\"submit\"\n");
+	print ("<input  class=\"adminButton\" type=\"submit\"\n");
 	print ("\tvalue=\"Add\"\n");
 	print ("\tname=\"promptAdded\"\n");
 	print ("\tonclick=\"addPrompt()\"\n");
@@ -198,12 +191,12 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	print ("</div>\n");
 
 /* New language */
-	print ("<div class=\"addPrompt\">\n");
+	print ("<div class=\"addPrompt adminPromptLanguage\">\n");
 	print ("Add language:<br />\n");
-	print ("<input type=\"text\"\n");
+	print ("<input  class=\"adminTextBox\" type=\"text\"\n");
 	print ("\tid=\"addLanguage\"\n");
 	print ("/><br />\n");
-	print ("<input type=\"submit\"\n");
+	print ("<input  class=\"adminButton\" type=\"submit\"\n");
 	print ("\tvalue=\"Add\"\n");
 	print ("\tname=\"promptAdded\"\n");
 	print ("\tonclick=\"addLanguage()\"\n");
@@ -261,6 +254,17 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 	print ("<div class=\"floatClear\"></div>\n");
 ?>
 
+<div class="padded floatLeft">
+  <div class="admin">
+  For admin use only.
+	<button class="adminButton" onclick="newDB()"><big>New database…</big></button>
+	<button class="adminButton" onclick="writeLanguageFiles()"><big>Write php files</big></button>
+	<button class="adminButton" onclick="readLanguageFiles()"><big>Read php files</big></button>
+	<button class="adminButton" onclick="writeYmlFiles()"><big>Write yml files</big></button>
+	<button class="adminButton" onclick="readYmlFiles()"><big>Read yml files</big></button>
+	</div>
+	<small>© Copyright 2014 William H. Prescott</small>
+</div>
 </div><!--End of content-->
 </div><!--End of page-->
 </body>

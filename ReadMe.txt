@@ -18,6 +18,11 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.7 (Build 40) 2015-04-29
+  Fixed bug in handling of consecutive prompts like:
+    //         active_record.errors.models.hospital.attributes.data_center:
+    //         active_record.errors.models.incidents.attributes.data_center:
+  Also tweaked display, creating Admin Only coloring.
 Version 1.7 (Build 39) 2015-04-28
   Finished adding yaml support.
 Version 1.7 (Build 38) 2015-04-28
