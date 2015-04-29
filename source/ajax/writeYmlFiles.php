@@ -36,8 +36,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 header('Content-type: application/json');
 
-require_once "phpUtils.php";
-require_once "Spyc.php";
+include_once "phpUtils.php";
 
 
 if (isset($_COOKIE["dbName"])) {

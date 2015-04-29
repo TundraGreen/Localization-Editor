@@ -27,8 +27,8 @@ v 1.0
 
 header('Content-type: application/json');
 
-require_once "phpUtils.php";
-require_once "Spyc.php";
+include_once "phpUtils.php";
+include_once "Spyc.php";
 
 
 if (isset($_COOKIE["dbName"])) {
@@ -49,7 +49,7 @@ date_default_timezone_set('America/Mexico_City');
 // Connect to the database with PDO
 $dbDir = "../Databases/".$dbName;
 $dbPath = $dbDir."/".$dbName.".sqlite";
-print $dbPath."\n";
+// print $dbPath."\n";
 
 $empty = array();
 $db = initDatabase ($dbPath);
