@@ -57,10 +57,12 @@ date_default_timezone_set('America/Mexico_City');
 
 // Connect to the database with PDO
 $dbPath = "../Databases/".$dbName."/".$dbName.".sqlite";
+print $dbPath;
 
 $db = initDatabase ($dbPath);
 
-$empty = array();
+$empty = [];
+$translations = [];
 
 $queryL = "SELECT lid, langcode FROM languages";
 $queryP = "SELECT pid, promptstring FROM prompts ORDER BY promptstring";
@@ -79,26 +81,72 @@ $result = doQuery($stmtL, $empty);
 
 while ($recordL = $stmtL->fetch()) { // Returns false if no record
 	$result .= "\n".doQuery($stmtP, $empty);
-// 	$fileName =  "../Databases/".$dbName."/".$recordL->{'langcode'}.".php";
-// 	$fHdl = fopen($fileName, 'w');
-// 	$output = "<?php\n";
-// 	fwrite($fHdl, $output);
+	$fileName =  "../Databases/".$dbName."/".$recordL->{'langcode'}.".yml";
+	$fHdl = fopen($fileName, 'w');
 	while ($recordP = $stmtP->fetch()) { // Returns false if no record
 		$args = array($recordL->{'lid'}, $recordP->{'pid'});
 		doQuery($stmtT, $args);
 		$recordT = $stmtT->fetch();
 		$translations[$recordP->{'promptstring'}] = $recordT->{'langstring'};
-// 		fwrite($fHdl, $output);
+		$yaml = processTranslations($recordL->{'langcode'}, $translations);
 	}
-  print_r($translations);
-  break;
-// 	$output = "?>\n";
-// 	fwrite($fHdl, $output);
-// 	fclose($fHdl);
+  fwrite($fHdl, $yaml);
+	$output = "\n";
+	fwrite($fHdl, $output);
+	fclose($fHdl);
 }
+
 
 jsonReturn($result, true, 'noerror');
 
 $db = null;
+
+function processTranslations($language, $translations) {
+
+  $yaml = $language. ":\n";
+  $promptAtLevel = [];
+  for ($i=0; $i< 20; $i++) {
+    $promptAtLevel[$i] = '';
+  }
+
+  foreach ($translations as $key=>$value) {
+    $promptArray = explode('.', $key);
+    $currentIndentLevel = 0;
+    $currentIndentString = '  ';
+
+
+    for ($i=0; $i< count($promptArray); $i++) {
+      if ($promptAtLevel[$i] != $promptArray[$i]) {
+//         print($currentIndentString);
+//         print($promptArray[$i]);
+        $yaml .= $currentIndentString;
+        $yaml .= $promptArray[$i];
+        $promptAtLevel[$i] = $promptArray[$i];
+        if ($i != count($promptArray) - 1) {
+//           print (":\n");
+          $yaml .= ":\n";
+        }
+        else {
+//           print (": |\n");
+//           print($currentIndentString);
+//           print("  $value\n");
+          $yaml .= ": |\n";
+          $yaml .= $currentIndentString;
+          $patchedValue = str_replace("\n", "\n  ".$currentIndentString, $value);
+          print '==================\n';
+          print $value;
+          print '------------------\n';
+          print $patchedValue;
+          $yaml .= "  $patchedValue\n";
+        }
+      }
+      $currentIndentLevel += 1;
+      $currentIndentString = '  ' . $currentIndentString;
+    }
+  }
+  return $yaml;
+}
+
+
 ?>
 

@@ -18,6 +18,8 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.7 (Build 39) 2015-04-28
+  Finished adding yaml support.
 Version 1.7 (Build 38) 2015-04-28
   Add support for reading and writing Beacon v.2 yaml files.
 Version 1.6.1 (Build 37) 2013-06-19
