@@ -18,6 +18,10 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.7 (Build 42) 2015-06-15
+  Investigated source of accent problems.
+  It is in display in browser of yml files.
+  The files are themselves are fine.
 Version 1.7 (Build 41) 2015-04-29
   Minor cleanup: remove debug, change require_once to include_once.
 Version 1.7 (Build 40) 2015-04-29

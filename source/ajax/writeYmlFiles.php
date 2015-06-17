@@ -22,31 +22,31 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 // W. Prescott 2012-11-18
 //
 /* Note javascript encodeURI used to encode text
-	php urldecode used to read text
-	http://www.the-art-of-web.com/javascript/escape/
-	When storing:
-	They are encodeURI by javascript before sending to php
-	Then php urldecodes them before sending to sqlite
-	sqlite automatically adds backslashes to single quotes
-	When displaying in editor:
-	php stripslashes strips slashes from them.
-	When writing language files:
-	php leaves the backslashed single quotes backslashed
+  php urldecode used to read text
+  http://www.the-art-of-web.com/javascript/escape/
+  When storing:
+  They are encodeURI by javascript before sending to php
+  Then php urldecodes them before sending to sqlite
+  sqlite automatically adds backslashes to single quotes
+  When displaying in editor:
+  php stripslashes strips slashes from them.
+  When writing language files:
+  php leaves the backslashed single quotes backslashed
 */
 
-header('Content-type: application/json');
+header('Content-type: text/html; charset=utf-8');
 
 include_once "phpUtils.php";
 
 
 if (isset($_COOKIE["dbName"])) {
-	$dbName = $_COOKIE["dbName"];
+  $dbName = $_COOKIE["dbName"];
 }
 elseif ($argv[1] == 'beacon2') {
   $dbName = $argv[1];
 }
 else {
-	jsonReturn($dbName, true, 'No DB name');
+  jsonReturn($dbName, true, 'No DB name');
 }
 
 
@@ -78,21 +78,21 @@ $stmtT->setFetchMode(PDO::FETCH_OBJ);
 $result = doQuery($stmtL, $empty);
 
 while ($recordL = $stmtL->fetch()) { // Returns false if no record
-	$result .= "\n".doQuery($stmtP, $empty);
-	$fileName =  "../Databases/".$dbName."/".$recordL->{'langcode'}.".yml";
-	$fHdl = fopen($fileName, 'w');
+  $result .= "\n".doQuery($stmtP, $empty);
+  $fileName =  "../Databases/".$dbName."/".$recordL->{'langcode'}.".yml";
+  $fHdl = fopen($fileName, 'w');
   $translations = [];
-	while ($recordP = $stmtP->fetch()) { // Returns false if no record
-		$args = array($recordL->{'lid'}, $recordP->{'pid'});
-		doQuery($stmtT, $args);
-		$recordT = $stmtT->fetch();
-		$translations[$recordP->{'promptstring'}] = $recordT->{'langstring'};
-	}
-	$yaml = processTranslations($recordL->{'langcode'}, $translations);
+  while ($recordP = $stmtP->fetch()) { // Returns false if no record
+    $args = array($recordL->{'lid'}, $recordP->{'pid'});
+    doQuery($stmtT, $args);
+    $recordT = $stmtT->fetch();
+    $translations[$recordP->{'promptstring'}] = $recordT->{'langstring'};
+  }
+  $yaml = processTranslations($recordL->{'langcode'}, $translations);
   fwrite($fHdl, $yaml);
-	$output = "\n";
-	fwrite($fHdl, $output);
-	fclose($fHdl);
+  $output = "\n";
+  fwrite($fHdl, $output);
+  fclose($fHdl);
 }
 
 
@@ -111,7 +111,8 @@ function processTranslations($language, $translations) {
   $debug = 0;
   foreach ($translations as $key=>$value) {
 //     print ("language: $language  -  debug: $debug\n");
-//     print("prompt: $key\n");
+//     print("prompt: $key<br />\n");
+//     print("value: $value<br />\n");
     $promptArray = explode('.', $key);
     $currentIndentLevel = 0;
     $currentIndentString = '  ';
