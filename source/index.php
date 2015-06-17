@@ -17,59 +17,59 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 */
 /* Note javascript escape used to encode text
-	php urldecode used to read text
-	http://www.the-art-of-web.com/javascript/escape/
-	When storing:
-	They are encodeURI by javascript before sending to php
-	Then php urldecodes them before sending to sqlite
-	sqlite automatically adds backslashes to single quotes
-	When displaying in editor:
-	php stripslashes strips slashes from them.
-	When writing language files:
-	php leaves the backslashed single quotes backslashed
+  php urldecode used to read text
+  http://www.the-art-of-web.com/javascript/escape/
+  When storing:
+  They are encodeURI by javascript before sending to php
+  Then php urldecodes them before sending to sqlite
+  sqlite automatically adds backslashes to single quotes
+  When displaying in editor:
+  php stripslashes strips slashes from them.
+  When writing language files:
+  php leaves the backslashed single quotes backslashed
 */
 /* Preliminaries */
 
-	$prefix = "";
-	require_once("ajax/getDatabaseList.php");
-	if (isset($_COOKIE["dbName"])) {
-		$dbName = $_COOKIE["dbName"];
+  $prefix = "";
+  require_once("ajax/getDatabaseList.php");
+  if (isset($_COOKIE["dbName"])) {
+    $dbName = $_COOKIE["dbName"];
 
-		// Handle case where cookies points to a non-existence database
-		if( array_search($dbName, $dbDirList) === false) {
-			// change dbName to dbList[0]
-			$dbName = $dbDirList[0];
-			setcookie("dbName", $dbName, time()+60*60*24*30, "/");
-		}
-	}
-	else {
-		$dbName = $dbDirList[0];
-		setcookie("dbName", $dbName, time()+60*60*24*30, "/");
-	}
+    // Handle case where cookies points to a non-existence database
+    if( array_search($dbName, $dbDirList) === false) {
+      // change dbName to dbList[0]
+      $dbName = $dbDirList[0];
+      setcookie("dbName", $dbName, time()+60*60*24*30, "/");
+    }
+  }
+  else {
+    $dbName = $dbDirList[0];
+    setcookie("dbName", $dbName, time()+60*60*24*30, "/");
+  }
 
-	require "ajax/phpUtils.php";
-	date_default_timezone_set('America/Mexico_City');
-	if (isset($_COOKIE["pid"])) {
-		$pid = $_COOKIE["pid"];
-	}
-	else {
-		$pid = 1;
-		setcookie("pid", $pid, time()+60*60*24*30, "/");
-	}
+  require "ajax/phpUtils.php";
+  date_default_timezone_set('America/Mexico_City');
+  if (isset($_COOKIE["pid"])) {
+    $pid = $_COOKIE["pid"];
+  }
+  else {
+    $pid = 1;
+    setcookie("pid", $pid, time()+60*60*24*30, "/");
+  }
 ?>
 <!DOCTYPE html>
 
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>Localization Editor</title>
-	<link href="estilos/master.css" rel="stylesheet" type="text/css" />
-	<link href="estilos/le.css" rel="stylesheet" type="text/css" />
-	<script src="http://code.jquery.com/jquery-latest.js"></script>
-	<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
-	<script src="javascript/jquery.cookie.js" type="text/javascript"></script>
-	<script src="javascript/jquery.scrollTo-1.4.3.1-min.js" type="text/javascript"></script>
-	<script src="javascript/le.js" type="text/javascript"></script>
+  <meta charset="UTF-8">
+  <title>Localization Editor</title>
+  <link href="estilos/master.css" rel="stylesheet" type="text/css" />
+  <link href="estilos/le.css" rel="stylesheet" type="text/css" />
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+  <script src="javascript/jquery.cookie.js" type="text/javascript"></script>
+  <script src="javascript/jquery.scrollTo-1.4.3.1-min.js" type="text/javascript"></script>
+  <script src="javascript/le.js" type="text/javascript"></script>
 </head>
 <body>
 <?php
@@ -78,192 +78,206 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 <div id="page">
 <div id="content">
 <h1>
-	Localization Editor
+  Localization Editor
 </h1>
 <div class="dbSelection">
-	Select database:
-	<select id="pickDB" onchange="selectDB()">
+  Select database:
+  <select id="pickDB" onchange="selectDB()">
 <?php
-	$dbNum = 0;
-	for($i=0; $i<count($dbDirList); $i++) {
-		print "\t\t<option";
-		print " value='".$dbDirList[$i]."'";
-		if( $dbName === $dbDirList[$i]) {
-			print " selected";
-			$dbNum = $i;
-		}
-		print ">\n";
-		print "\t\t\t".$dbDirList[$i]."\n";
-		print "\t\t</option>\n";
-	}
+  $dbNum = 0;
+  for($i=0; $i<count($dbDirList); $i++) {
+    print "\t\t<option";
+    print " value='".$dbDirList[$i]."'";
+    if( $dbName === $dbDirList[$i]) {
+      print " selected";
+      $dbNum = $i;
+    }
+    print ">\n";
+    print "\t\t\t".$dbDirList[$i]."\n";
+    print "\t\t</option>\n";
+  }
 ?>
-	</select>
+  </select>
 </div>
 
 
 <?php
 
-	$queryL = "SELECT lid, langcode FROM languages ORDER BY langcode";
-	$queryP = "SELECT pid, promptstring FROM prompts ORDER BY promptstring";
-	$queryT = "SELECT tid,langstring FROM translations where langid=? AND promptid=?";
-	$empty = array();
+  $queryL = "SELECT lid, langcode FROM languages ORDER BY langcode";
+  $queryP = "SELECT pid, promptstring FROM prompts ORDER BY promptstring";
+  $queryT = "SELECT tid,langstring FROM translations where langid=? AND promptid=?";
+  $empty = array();
 
-	// Connect to the database with PDO
-	$dbPath = "Databases/".$dbDirList[$dbNum]."/".$dbDirList[$dbNum].".sqlite";
-	if (!file_exists($dbPath)) {
-		touch($dbPath, 0777);
-		chmod($dbPath, 0777);
-		$db = initDatabase ($dbPath);
-		$query = "CREATE TABLE languages ".
-			"(".
-			"lid INTEGER PRIMARY KEY,".
-			"langcode TEXT NOT NULL DEFAULT ''".
-			");";
+  // Connect to the database with PDO
+  $dbPath = "Databases/".$dbDirList[$dbNum]."/".$dbDirList[$dbNum].".sqlite";
+  if (!file_exists($dbPath)) {
+    touch($dbPath, 0777);
+    chmod($dbPath, 0777);
+    $db = initDatabase ($dbPath);
+    $query = "CREATE TABLE languages ".
+      "(".
+      "lid INTEGER PRIMARY KEY,".
+      "langcode TEXT NOT NULL DEFAULT ''".
+      ");";
 
-		$stmt = $db->prepare($query);
-		$result = doQuery($stmt, $empty);
+    $stmt = $db->prepare($query);
+    $result = doQuery($stmt, $empty);
 
-		$query = "CREATE TABLE prompts ".
-			"(".
-			"pid INTEGER PRIMARY KEY,".
-			"promptstring TEXT NOT NULL DEFAULT ''".
-			");";
-		$stmt = $db->prepare($query);
-		$result = doQuery($stmt, $empty);
+    $query = "CREATE TABLE prompts ".
+      "(".
+      "pid INTEGER PRIMARY KEY,".
+      "promptstring TEXT NOT NULL DEFAULT ''".
+      ");";
+    $stmt = $db->prepare($query);
+    $result = doQuery($stmt, $empty);
 
-		$query = "CREATE TABLE translations".
-			"(".
-			"tid INTEGER PRIMARY KEY,".
-			"langid INTEGER NOT NULL DEFAULT 0,".
-			"promptid INTEGER NOT NULL DEFAULT 0,".
-			"langstring TEXT NOT NULL DEFAULT ''".
-			");";
-		$stmt = $db->prepare($query);
-		$result = doQuery($stmt, $empty);
-	}
-	else {
-		$db = initDatabase ($dbPath);
-	}
-	$stmtP = $db->prepare($queryP);
-	$stmtP->setFetchMode(PDO::FETCH_OBJ);
+    $query = "CREATE TABLE translations".
+      "(".
+      "tid INTEGER PRIMARY KEY,".
+      "langid INTEGER NOT NULL DEFAULT 0,".
+      "promptid INTEGER NOT NULL DEFAULT 0,".
+      "langstring TEXT NOT NULL DEFAULT ''".
+      ");";
+    $stmt = $db->prepare($query);
+    $result = doQuery($stmt, $empty);
+  }
+  else {
+    $db = initDatabase ($dbPath);
+  }
+  $stmtP = $db->prepare($queryP);
+  $stmtP->setFetchMode(PDO::FETCH_OBJ);
 
-	$result = doQuery($stmtP, $empty);
+  $result = doQuery($stmtP, $empty);
 
-	$stmtT = $db->prepare($queryT);
-	$stmtT->setFetchMode(PDO::FETCH_OBJ);
+  $stmtT = $db->prepare($queryT);
+  $stmtT->setFetchMode(PDO::FETCH_OBJ);
 
-	print ("<div class=\"promptBox floatLeft\">\n");
+  print ("<div class=\"promptBox floatLeft\">\n");
 
 /* Prompt selection box */
-	print ("<div class=\"promptsHdr\">\n");
-	print ("Prompt strings:<br />\n");
-	print ("</div>\n");
-	print ("<div class=\"prompts\" id=\"promptList\" >\n");
-	while ($record = $stmtP->fetch()) { // Returns false if no record
+  print ("<div class=\"promptsHdr\">\n");
+  print ("Prompt strings:<br />\n");
+  print ("</div>\n");
+  print ("<div class=\"prompts\" id=\"promptList\" >\n");
+  while ($record = $stmtP->fetch()) { // Returns false if no record
 
-		print ("\n");
+    print ("\n");
 
-		print ("<div class=\"promptEntry\">\n");
-		print ("<label>\n");
-		print ("<input type=\"radio\"\n ");
-		print ("\tname=\"promptSelected\"\n ");
-		print ("\tid=\"prompt_".$record->{'pid'}."\"\n ");
-		print ("\tvalue=\"".$record->{'pid'}."\"\n ");
-		if ($record->{'pid'} == $pid) print ("\tchecked\n");
-		print ("/>\n");
-		print ("\t".$record->{'promptstring'}."\n");
-		print ("</label>\n");
-		print ("</div>\n");
-	}
-	print ("</div>\n");
+    print ("<div class=\"promptEntry\">\n");
+    print ("<label>\n");
+    print ("<input type=\"radio\"\n ");
+    print ("\tname=\"promptSelected\"\n ");
+    print ("\tid=\"prompt_".$record->{'pid'}."\"\n ");
+    print ("\tvalue=\"".$record->{'pid'}."\"\n ");
+    if ($record->{'pid'} == $pid) print ("\tchecked\n");
+    print ("/>\n");
+    print ("\t".$record->{'promptstring'}."\n");
+    print ("</label>\n");
+    print ("</div>\n");
+  }
+  print ("</div>\n");
 
 /* New prompt */
-	print ("<div class=\"addPrompt adminPromptLanguage\">\n");
-	print ("Add prompt:<br />\n");
-	print ("<input class=\"adminTextBox\" type=\"text\"\n");
-	print ("\tid=\"addPrompt\"\n");
-	print ("/><br />\n");
-	print ("<input  class=\"adminButton\" type=\"submit\"\n");
-	print ("\tvalue=\"Add\"\n");
-	print ("\tname=\"promptAdded\"\n");
-	print ("\tonclick=\"addPrompt()\"\n");
-	print ("/>\n");
-	print ("</div>\n");
+  print ("<div class=\"addPrompt adminPromptLanguage\">\n");
+  print ("Add prompt:<br />\n");
+  print ("<input class=\"adminTextBox\" type=\"text\"\n");
+  print ("\tid=\"addPrompt\"\n");
+  print ("/><br />\n");
+  print ("<input  class=\"adminButton\" type=\"submit\"\n");
+  print ("\tvalue=\"Add\"\n");
+  print ("\tname=\"promptAdded\"\n");
+  print ("\tonclick=\"addPrompt()\"\n");
+  print ("/>\n");
+  print ("</div>\n");
 
 /* New language */
-	print ("<div class=\"addPrompt adminPromptLanguage\">\n");
-	print ("Add language:<br />\n");
-	print ("<input  class=\"adminTextBox\" type=\"text\"\n");
-	print ("\tid=\"addLanguage\"\n");
-	print ("/><br />\n");
-	print ("<input  class=\"adminButton\" type=\"submit\"\n");
-	print ("\tvalue=\"Add\"\n");
-	print ("\tname=\"promptAdded\"\n");
-	print ("\tonclick=\"addLanguage()\"\n");
-	print ("/>\n");
-	print ("</div>\n");
-	print ("</div>\n");
+  print ("<div class=\"addPrompt adminPromptLanguage\">\n");
+  print ("Add language:<br />\n");
+  print ("<input  class=\"adminTextBox\" type=\"text\"\n");
+  print ("\tid=\"addLanguage\"\n");
+  print ("/><br />\n");
+  print ("<input  class=\"adminButton\" type=\"submit\"\n");
+  print ("\tvalue=\"Add\"\n");
+  print ("\tname=\"promptAdded\"\n");
+  print ("\tonclick=\"addLanguage()\"\n");
+  print ("/>\n");
+  print ("</div>\n");
+  print ("</div>\n");
 
-	$stmtL = $db->prepare($queryL);
-	$stmtL->setFetchMode(PDO::FETCH_OBJ);
+  $stmtL = $db->prepare($queryL);
+  $stmtL->setFetchMode(PDO::FETCH_OBJ);
 
-	$result = doQuery($stmtL, $empty);
+  $result = doQuery($stmtL, $empty);
 
 
-	print ("<div class=\"languageBox floatLeft\">\n");
+  print ("<div class=\"languageBox floatLeft\">\n");
 
 /* Language translation box */
-	while ($recordL = $stmtL->fetch()) { // Returns false if no record
-		$selector = array($recordL->{'lid'}, $pid);
-		$result = doQuery($stmtT, $selector);
-		$recordT = $stmtT->fetch();
+  while ($recordL = $stmtL->fetch()) { // Returns false if no record
+    $selector = array($recordL->{'lid'}, $pid);
+    $result = doQuery($stmtT, $selector);
+    $recordT = $stmtT->fetch();
 
-		print ("\n\n<div class=\"languageEntryHdr\">\n");
+    print ("\n\n<div class=\"languageEntryHdr\">\n");
 
-//		$lid = $recordL->{'lid'};
-		$tid = $recordT->{'tid'};
-		print ("<input type=\"submit\"\n");
-		print ("\tid=\"saveBtn-".$tid."\"\n");
-		print ("\tname=\"updateTranslation\"\n");
-		print ("\tvalue=\"Save\"\n");
-		print ("\tdisabled\n");
-		print ("\tonclick=\"updateTranslation(".$tid.")\"\n");
-		print ("/>\n");
+//    $lid = $recordL->{'lid'};
+    $tid = $recordT->{'tid'};
+    print ("<input type=\"submit\"\n");
+    print ("\tid=\"saveBtn-".$tid."\"\n");
+    print ("\tname=\"updateTranslation\"\n");
+    print ("\tvalue=\"Save\"\n");
+    print ("\tdisabled\n");
+    print ("\tonclick=\"updateTranslation(".$tid.")\"\n");
+    print ("/>\n");
 
-		print ("<input type=\"submit\"\n");
-		print ("\tid=\"cancelBtn-".$tid."\"\n");
-		print ("\tvalue=\"Cancel\"\n");
-		print ("\tdisabled\n");
-		print ("\tonclick=\"cancelTranslation()\"\n");
-		print ("/>\n");
-		print ($recordL->{'langcode'}.":\n");
-		print ("</div>\n");
+    print ("<input type=\"submit\"\n");
+    print ("\tid=\"cancelBtn-".$tid."\"\n");
+    print ("\tvalue=\"Cancel\"\n");
+    print ("\tdisabled\n");
+    print ("\tonclick=\"cancelTranslation()\"\n");
+    print ("/>\n");
+    print ($recordL->{'langcode'}.":\n");
+    print ("</div>\n");
 
-		print ("<div class=\"languageEntry\">\n");
-		print ("<textarea \n");
-		print ("\tid=\"langstring-".$tid."\"\n");
-		print ("\trows=\"6\"\n");
-		print ("\tcols=\"75\"\n");
-		print ("\tonkeypress=\"translationTextChanged(".$tid.")\"\n");
-		print (">");
-		print (stripslashes($recordT->{'langstring'}));
-		print ("</textarea>\n");
-		print ("</div>\n");
-	}
-	print ("</div>\n");
-	print ("<div class=\"floatClear\"></div>\n");
+    print ("<div class=\"languageEntry\">\n");
+    print ("<textarea \n");
+    print ("\tid=\"langstring-".$tid."\"\n");
+    print ("\trows=\"6\"\n");
+    print ("\tcols=\"75\"\n");
+    print ("\tonkeypress=\"translationTextChanged(".$tid.")\"\n");
+    print (">");
+    print (stripslashes($recordT->{'langstring'}));
+    print ("</textarea>\n");
+    print ("</div>\n");
+  }
+  print ("</div>\n");
+  print ("<div class=\"floatClear\"></div>\n");
 ?>
 
 <div class="padded floatLeft">
   <div class="admin">
   For admin use only.
-	<button class="adminButton" onclick="newDB()"><big>New database…</big></button>
-	<button class="adminButton" onclick="writeLanguageFiles()"><big>Write php files</big></button>
-	<button class="adminButton" onclick="readLanguageFiles()"><big>Read php files</big></button>
-	<button class="adminButton" onclick="writeYmlFiles()"><big>Write yml files</big></button>
-	<button class="adminButton" onclick="readYmlFiles()"><big>Read yml files</big></button>
-	</div>
-	<small>© Copyright 2014 William H. Prescott</small>
+  <button class="adminButton" onclick="newDB()"><big>New database…</big></button>
+  <button class="adminButton" onclick="writeLanguageFiles()"><big>Write php files</big></button>
+  <button class="adminButton" onclick="readLanguageFiles()"><big>Read php files</big></button>
+  <button class="adminButton" onclick="writeYmlFiles()"><big>Write yml files</big></button>
+  <button class="adminButton" onclick="readYmlFiles()"><big>Read yml files</big></button>
+  </div>
+  <div class="admin">
+<?php
+  $stmtL = $db->prepare($queryL);
+  $stmtL->setFetchMode(PDO::FETCH_OBJ);
+
+  $result = doQuery($stmtL, $empty);
+  while ($recordL = $stmtL->fetch()) { // Returns false if no record
+    $fileName = $recordL->langcode.".yml";
+    $link = "Databases/".$dbDirList[$dbNum]."/".$fileName;
+    print ("<a href='$link' download='$fileName'>$fileName</a>");
+    print (" • ");
+  }
+?>
+  </div>
+  <small>© Copyright 2014 William H. Prescott</small>
 </div>
 </div><!--End of content-->
 </div><!--End of page-->

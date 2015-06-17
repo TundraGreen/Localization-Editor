@@ -18,6 +18,8 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.7 (Build 43) 2015-06-15
+  Add buttons to facilitate downloading yml files.
 Version 1.7 (Build 42) 2015-06-15
   Investigated source of accent problems.
   It is in display in browser of yml files.
