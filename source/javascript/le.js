@@ -180,7 +180,7 @@ function updateTranslation (tid) {
 	$.ajax({
 		type: "POST",
 		url: "ajax/updateTranslation.php",
-		data: {tid: tid, text: encodeURI(langStr)},
+		data: {tid: tid, text: encodeURIComponent(langStr)},
 		complete: function(data) {
 			var jsonObj = JSON.parse(data.responseText);
 			if (!jsonObj.resultFlag) {
