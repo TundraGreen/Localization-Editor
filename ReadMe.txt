@@ -18,6 +18,8 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.7 (Build 45) 2015-07-23
+  Add Spyc.php to git.
 Version 1.7 (Build 44) 2015-07-06
   Fix handling of + signs.
 Version 1.7 (Build 43) 2015-06-15
