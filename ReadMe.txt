@@ -18,6 +18,9 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
 
 Version history
 ---------------
+Version 1.7 (Build 45) 2015-08-03
+  Changed from onkeypress to oninput to fix problem with save button
+  not enabled on delete.
 Version 1.7 (Build 45) 2015-07-23
   Add Spyc.php to git.
 Version 1.7 (Build 44) 2015-07-06
