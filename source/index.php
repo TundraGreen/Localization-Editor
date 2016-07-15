@@ -253,15 +253,18 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
   print ("</div>\n");
   print ("<div class=\"floatClear\"></div>\n");
 ?>
+  </div>
 
 <div class="padded floatLeft">
   <div class="admin">
   For admin use only.
   <button class="adminButton" onclick="newDB()"><big>New database…</big></button>
   <button class="adminButton" onclick="writeLanguageFiles()"><big>Write php files</big></button>
-  <button class="adminButton" onclick="readLanguageFiles()"><big>Read php files</big></button>
   <button class="adminButton" onclick="writeYmlFiles()"><big>Write yml files</big></button>
-  <button class="adminButton" onclick="readYmlFiles()"><big>Read yml files</big></button>
+  <?php if (strpos($_SERVER['SERVER_NAME'], 'localhost') !== false) { ?>
+    <button class="adminButton" onclick="readLanguageFiles()"><big>Read php files</big></button>
+    <button class="adminButton" onclick="readYmlFiles()"><big>Read yml files</big></button>
+  <?php } ?>
   </div>
   <div class="admin">
 <?php
@@ -277,7 +280,7 @@ THIS SOFTWARE IS PROVIDED BY William H. Prescott "AS IS" AND ANY EXPRESS OR IMPL
   }
 ?>
   </div>
-  <small>© Copyright 2014 William H. Prescott</small>
+  <small>© Copyright 2014-2016 William H. Prescott</small>
 </div>
 </div><!--End of content-->
 </div><!--End of page-->
