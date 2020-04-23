@@ -6,7 +6,7 @@
 	<property name="product"	location="product"/>
 	<property name="source"		location="source"/>
 	<property name="project"	location="LocalizationEditor"/>
-	<property name="web.local"	location="/Library/WebServer/Documents"/>
+	<property name="web.local"	location="/Library/WebServer/Documents/theprescotts/software"/>
 
 	<target name="init"
 		description="Initialize">

@@ -25,80 +25,91 @@ var someTextAreaChanged = [];
 
 
 $(document).ready(function() {
-	$('#promptList').change(function() {
-		if (someTextAreaChanged.length > 0) {
-			if (confirm("Some text has changed.\n"
-				+ "Switching prompts will lose the changes.\n"
-				+ "Click OK to discard changes.\n"
-				+ "Click Cancel to go back without losing changes.")) {
-			}
-			else {
-				$('[name="promptSelected" ][value="' + $.cookie('pid') + '"]').attr('checked', true)
-				return;
-			}
-		}
-		$.cookie('pid', $("input[name='promptSelected']:checked").val(), {path:"/"});
-		window.location.reload(true);
-	});
-	if ( $("input[name='promptSelected']:checked").length == 1) {
-		$('#promptList').scrollTo($("input[name='promptSelected']:checked"), 0, {margin:true} );
-	}
+  $('#promptList').change(function() {
+    if (someTextAreaChanged.length > 0) {
+      if (confirm("Some text has changed.\n"
+        + "Switching prompts will lose the changes.\n"
+        + "Click OK to discard changes.\n"
+        + "Click Cancel to go back without losing changes.")) {
+      }
+      else {
+        $('[name="promptSelected" ][value="' + $.cookie('pid') + '"]').attr('checked', true)
+        return;
+      }
+    }
+    $.cookie('pid', $("input[name='promptSelected']:checked").val(), {path:"/"});
+    window.location.reload(true);
+  });
+  if ( $("input[name='promptSelected']:checked").length == 1) {
+    $('#promptList').scrollTo($("input[name='promptSelected']:checked"), 0, {margin:true} );
+  }
 });
 
 
 function addLanguage () {
-	var langCode = $("#addLanguage").val();
-	$.ajax({
-		type: "POST",
-		url: "ajax/addLanguage.php",
-		data: {string: langCode},
-		complete: function(data) {
-			var jsonObj = JSON.parse(data.responseText);
-			if (!jsonObj.resultFlag) {
-				console.log("Response: "+jsonObj.error);
-			}
-			window.location.reload(true);
-		}
-	});
+  var langCode = $("#addLanguage").val();
+  $.ajax({
+    type: "POST",
+    url: "ajax/addLanguage.php",
+    data: {string: langCode},
+    complete: function(data) {
+      window.location.reload(true);
+      try {
+        var jsonObj = JSON.parse(data.responseText);
+        if (!jsonObj.resultFlag) {
+          console.log("Response: "+jsonObj.error);
+        }
+      }
+      catch (error) {
+          console.error(error);
+      }
+    }
+  });
 }
 
 function addPrompt () {
-	var prompt = $("#addPrompt").val();
-	$.ajax({
-		type: "POST",
-		url: "ajax/addPrompt.php",
-		data: {string: prompt},
-		complete: function(data) {
-			var jsonObj = JSON.parse(data.responseText);
-			if (!jsonObj.resultFlag) {
-				console.log("Response: "+jsonObj.error);
-			}
-			window.location.reload(true);
-		}
-	});
+  var prompt = $("#addPrompt").val();
+  $.ajax({
+    type: "POST",
+    url: "ajax/addPrompt.php",
+    data: {string: prompt},
+    complete: function(data) {
+      window.location.reload(true);
+      try {
+        var jsonObj = JSON.parse(data.responseText);
+        if (!jsonObj.resultFlag) {
+          console.log("Response: "+jsonObj.error);
+        }
+      }
+      catch (error) {
+          console.error(error);
+      }
+    }
+  });
 }
 
 function cancelTranslation () {
-	window.location.reload(true);
+  window.location.reload(true);
 }
 
 function newDB () {
-	var name = prompt('Enter name for new database');
-	if (name === null || name === '') {
-		return;
-	}
-	$.ajax({
-		type: "POST",
-		url: "ajax/addDatabase.php",
-		data: {name: name},
-		complete: function(data) {
-			var jsonObj = JSON.parse(data.responseText);
-			if (!jsonObj.resultFlag) {
-				console.log("Response: "+jsonObj.error);
-			}
-			window.location.reload(true);
-		}
-	});
+  var name = prompt('Enter name for new database');
+  if (name === null || name === '') {
+    return;
+  }
+  $.ajax({
+    type: "POST",
+    url: "ajax/addDatabase.php",
+    data: {name: name},
+    complete: function(data) {
+      var jsonObj = JSON.parse(data.responseText);
+      if (!jsonObj.resultFlag) {
+        console.log("Response: "+jsonObj.error);
+        window.location.reload(true);
+      }
+      window.location.reload(true);
+    }
+  });
 }
 
 function pushUnique(arr, val) {
@@ -107,41 +118,41 @@ function pushUnique(arr, val) {
             return;
         }
     }
-	arr.push(val);
+  arr.push(val);
 }
 
 function readLanguageFiles() {
-	if (!confirm('Are you sure?\n' +
-		'This will add prompts from language files to the database.')) return;
-	$.ajax({
-		url:"ajax/readLanguageFiles.php",
-		complete: function(data) {
-			var jsonObj = JSON.parse(data.responseText);
-			if (jsonObj.resultFlag) {
-				window.location.reload(true);
-			}
-			else {
-				console.log("Error: "+jsonObj.error);
-			}
-		}
-	});
+  if (!confirm('Are you sure?\n' +
+    'This will add prompts from language files to the database.')) return;
+  $.ajax({
+    url:"ajax/readLanguageFiles.php",
+    complete: function(data) {
+      var jsonObj = JSON.parse(data.responseText);
+      if (jsonObj.resultFlag) {
+        window.location.reload(true);
+      }
+      else {
+        console.log("Error: "+jsonObj.error);
+      }
+    }
+  });
 }
 
 function readYmlFiles() {
-	if (!confirm('Are you sure?\n' +
-		'This will add prompts from yml files to the database.')) return;
-	$.ajax({
-		url:"ajax/readYmlFiles.php",
-		complete: function(data) {
-			var jsonObj = JSON.parse(data.responseText);
-			if (jsonObj.resultFlag) {
-				window.location.reload(true);
-			}
-			else {
-				console.log("Error: "+jsonObj.error);
-			}
-		}
-	});
+  if (!confirm('Are you sure?\n' +
+    'This will add prompts from yml files to the database.')) return;
+  $.ajax({
+    url:"ajax/readYmlFiles.php",
+    complete: function(data) {
+      var jsonObj = JSON.parse(data.responseText);
+      if (jsonObj.resultFlag) {
+        window.location.reload(true);
+      }
+      else {
+        console.log("Error: "+jsonObj.error);
+      }
+    }
+  });
 }
 
 function removeByValue(arr, val) {
@@ -153,107 +164,107 @@ function removeByValue(arr, val) {
     }
 }
 function selectDB () {
-	$.cookie('dbName',$('#pickDB option:selected').val(),{path:"/"});
-	window.location.reload(true);
+  $.cookie('dbName',$('#pickDB option:selected').val(),{path:"/"});
+  window.location.reload(true);
 }
 
 function translationTextChanged (tid) {
-	$("#saveBtn-"+tid).removeAttr('disabled');
-	$("#cancelBtn-"+tid).removeAttr('disabled');
-	pushUnique(someTextAreaChanged, tid);
+  $("#saveBtn-"+tid).removeAttr('disabled');
+  $("#cancelBtn-"+tid).removeAttr('disabled');
+  pushUnique(someTextAreaChanged, tid);
 }
 
 /* Note javascript encodeURI used to encode text
-	php urldecode used to read text
-	http://www.the-art-of-web.com/javascript/escape/
-	When storing:
-	They are encodeURI by javascript before sending to php
-	Then php urldecodes them before sending to sqlite
-	sqlite automatically adds backslashes to single quotes
-	When displaying in editor:
-	php stripslashes strips slashes from them.
-	When writing language files:
-	php leaves the backslashed single quotes backslashed
+  php urldecode used to read text
+  http://www.the-art-of-web.com/javascript/escape/
+  When storing:
+  They are encodeURI by javascript before sending to php
+  Then php urldecodes them before sending to sqlite
+  sqlite automatically adds backslashes to single quotes
+  When displaying in editor:
+  php stripslashes strips slashes from them.
+  When writing language files:
+  php leaves the backslashed single quotes backslashed
 */
 function updateTranslation (tid) {
-	var langStr = $("#langstring-"+tid).val();
-	$.ajax({
-		type: "POST",
-		url: "ajax/updateTranslation.php",
-		data: {tid: tid, text: encodeURIComponent(langStr)},
-		complete: function(data) {
-			var jsonObj = JSON.parse(data.responseText);
-			if (!jsonObj.resultFlag) {
-				console.log("Response: "+jsonObj.error);
-			}
-			$("#saveBtn-"+tid).attr("disabled", "disabled");
-			$("#cancelBtn-"+tid).attr("disabled", "disabled");
-			removeByValue(someTextAreaChanged, tid);
-		}
-	});
+  var langStr = $("#langstring-"+tid).val();
+  $.ajax({
+    type: "POST",
+    url: "ajax/updateTranslation.php",
+    data: {tid: tid, text: encodeURIComponent(langStr)},
+    complete: function(data) {
+      var jsonObj = JSON.parse(data.responseText);
+      if (!jsonObj.resultFlag) {
+        console.log("Response: "+jsonObj.error);
+      }
+      $("#saveBtn-"+tid).attr("disabled", "disabled");
+      $("#cancelBtn-"+tid).attr("disabled", "disabled");
+      removeByValue(someTextAreaChanged, tid);
+    }
+  });
 }
 
 function writeLanguageFiles() {
-	if (!confirm('Are you sure?\nThis will overwrite any existing language files.')) return;
-	$.ajax({
-		url:"ajax/writeLanguageFiles.php",
-		complete: function(data) {
-			var jsonObj = JSON.parse(data.responseText);
-			if (jsonObj.resultFlag) {
-				alert("Files written");
-			}
-			else {
-				console.log("Error: "+jsonObj.error);
-			}
-		}
-	});
+  if (!confirm('Are you sure?\nThis will overwrite any existing language files.')) return;
+  $.ajax({
+    url:"ajax/writeLanguageFiles.php",
+    complete: function(data) {
+      var jsonObj = JSON.parse(data.responseText);
+      if (jsonObj.resultFlag) {
+        alert("Files written");
+      }
+      else {
+        console.log("Error: "+jsonObj.error);
+      }
+    }
+  });
 }
 
 function writeYmlFiles() {
-	if (!confirm('Are you sure?\nThis will overwrite any existing yml files.')) return;
-	$.ajax({
-		url:"ajax/writeYmlFiles.php",
-		complete: function(data) {
-			var jsonObj = JSON.parse(data.responseText);
-			if (jsonObj.resultFlag) {
-				alert("Files written");
-			}
-			else {
-				console.log("Error: "+jsonObj.error);
-			}
-		}
-	});
+  if (!confirm('Are you sure?\nThis will overwrite any existing yml files.')) return;
+  $.ajax({
+    url:"ajax/writeYmlFiles.php",
+    complete: function(data) {
+      var jsonObj = JSON.parse(data.responseText);
+      if (jsonObj.resultFlag) {
+        alert("Files written");
+      }
+      else {
+        console.log("Error: "+jsonObj.error);
+      }
+    }
+  });
 }
 
 
 /* ------------------------ Debug utilities --------------------------------*/
 function dumpProperties(obj, objName) {
-	var tp = typeof(obj);
-	var i;
-	for (i in obj) {
-		if (true) {
-			try {
-				console.log(objName + "." + i + " = " + obj[i]);
-			}
-			catch (err) {
-				console.log("Error for: " + objName + "." + i);
-				console.log("Error description: " + err.description);
-			}
-		}
-	}
-	return;
+  var tp = typeof(obj);
+  var i;
+  for (i in obj) {
+    if (true) {
+      try {
+        console.log(objName + "." + i + " = " + obj[i]);
+      }
+      catch (err) {
+        console.log("Error for: " + objName + "." + i);
+        console.log("Error description: " + err.description);
+      }
+    }
+  }
+  return;
 }
 function countProperties(obj, objName) {
-	var tp = typeof(obj);
-	console.log("Type of " + objName + ": " + tp);
-	var count = 0;
-	var i;
-	for (i in obj) {
-		if (true) {
-			count++;
-		}
-	}
-	console.log("Count: " + count);
+  var tp = typeof(obj);
+  console.log("Type of " + objName + ": " + tp);
+  var count = 0;
+  var i;
+  for (i in obj) {
+    if (true) {
+      count++;
+    }
+  }
+  console.log("Count: " + count);
 }
 
 
